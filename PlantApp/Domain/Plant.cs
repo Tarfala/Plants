@@ -9,7 +9,7 @@ namespace PlantApp.Domain
         public string Name { get; set; }
         public int PlantId { get; set; }
         public string LatinName { get; set; }
-        public int LocationId { get; set; }
+        public string LocationId { get; set; }
         public int WaterFrekuenseInDays { get; set; }
         public int PlantTypeId { get; set; }
         public int ScentId { get; set; }

@@ -37,7 +37,9 @@ namespace PlantApp
         private void ShowPlantsMenu()
         {
             ShowAllPlantsOnName();
-        }
+            ShowOnCategory();
+            AddPlant();
+        }       
 
         public void WriteLine(string text)
         {

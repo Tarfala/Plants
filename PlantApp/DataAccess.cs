@@ -2,12 +2,38 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlClient;
+using PlantApp.Domain;
 
 namespace PlantApp
 {
     class DataAccess
     {
         private const string conString = "Server=(localdb)\\mssqllocaldb; Database=Plants";
+
+        public List<Plant> GetAllPlantSorted()
+        {
+            var sql = @"SELECT PlantId, Name FROM Plant";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                var list = new List<Plant>();
+                while (reader.Read())
+                {
+                    var bp = new Plant
+                    {
+                        PlantId = reader.GetSqlInt32(0).Value,
+                        Name = reader.GetSqlString(1).Value,
+                        
+                    };
+                    list.Add(bp);
+                }
+                return list;
+            }
+
+
+        }
         //public List<Blogg> GetAllBlogPostsBrief()
         //{
         //    var sql = @"SELECT [Id], [Author], [Title], [Created], [Description], [Updated]
@@ -39,7 +65,7 @@ namespace PlantApp
 
         //        return list;
 
-         //  }
-       // }
+        //  }
+        // }
     }
 }
