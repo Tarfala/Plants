@@ -10,13 +10,38 @@ namespace PlantApp
     {
         private const string conString = "Server=(localdb)\\mssqllocaldb; Database=Plants";
 
+        public List<Plant> GetAllPlantSorted()
+        {
+            var sql = @"SELECT PlantId, Name FROM Plant";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                var list = new List<Plant>();
+                while (reader.Read())
+                {
+                    var bp = new Plant
+                    {
+                        PlantId = reader.GetSqlInt32(0).Value,
+                        Name = reader.GetSqlString(1).Value,
+
+                    };
+                    list.Add(bp);
+                }
+                return list;
+            }
+
+
+        }
+
         internal bool CheckIfUserIsValid(User loggedOnUser)
         {
             bool userExist = false;
             var sql = "SELECT COUNT(*) FROM User WHERE UserName = @userName AND PassWord = @passWord";
 
             using (SqlConnection connection = new SqlConnection(conString))
-            using(SqlCommand command = new SqlCommand(sql, connection))
+            using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 connection.Open();
                 command.Parameters.Add(new SqlParameter("userName", loggedOnUser.UserName));
@@ -33,11 +58,55 @@ namespace PlantApp
             return userExist;
         }
 
-        internal void CreateNewAccount(User loggedOnUser)
-        {
-            throw new NotImplementedException();
-        }
+        //public Plant GetPlantByCategory(int input)
+        //{
+        //    var sql = @"SELECT PlantId, Name
+        //                FROM Plant 
+        //                WHERE PlantTypeId=@input";
+        //    using (SqlConnection connection = new SqlConnection(conString))
+        //    using (SqlCommand command = new SqlCommand(sql, connection))
+        //    {
+        //        connection.Open();
 
+        //        SqlDataReader reader = command.ExecuteReader();
+
+        //        var list = new List<Plant>();
+
+        //        while (reader.Read())
+        //        {
+        //            var bp = new Plant
+        //            {
+        //                PlantId = reader.GetSqlInt32(0).Value,
+        //                Name = reader.GetSqlString(1).Value,
+        //            };
+        //            list.Add(bp);
+        //        }
+        //        return list;
+        //    }
+        //}
+
+        internal List<PlantType> GetCategort()
+        {
+            var sql = @"SELECT PlantTypeId, PlantType FROM PlantType";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                var list = new List<PlantType>();
+                while (reader.Read())
+                {
+                    var bp = new PlantType
+                    {
+                        PlantTypeId = reader.GetSqlInt32(0).Value,
+                        PlantTypes = reader.GetSqlString(1).Value,
+
+                    };
+                    list.Add(bp);
+                }
+                return list;
+            }
+        }
         //public List<Blogg> GetAllBlogPostsBrief()
         //{
         //    var sql = @"SELECT [Id], [Author], [Title], [Created], [Description], [Updated]
