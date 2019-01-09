@@ -102,7 +102,7 @@ namespace PlantApp
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu();
+                MainMenu(null);
             }
         }
 
@@ -123,13 +123,13 @@ namespace PlantApp
                 SearchTips();
 
             if (key == ConsoleKey.C)
-                MainMenu();
+                MainMenu(null);
 
             else
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu();
+                MainMenu(null);
             }
 
         }
@@ -155,13 +155,13 @@ namespace PlantApp
                 ShowUserInformation();
 
             if (key == ConsoleKey.D)
-                MainMenu();
+                MainMenu(null);
 
             else
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu();
+                MainMenu(null);
             }
 
         }
@@ -187,13 +187,13 @@ namespace PlantApp
                 AddPlant();
 
             if (key == ConsoleKey.D)
-                MainMenu();
+                MainMenu(null);
 
             else
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu();
+                MainMenu(null);
             }
             
         }       

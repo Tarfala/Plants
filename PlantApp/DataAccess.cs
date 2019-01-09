@@ -58,6 +58,11 @@ namespace PlantApp
             return userExist;
         }
 
+        internal void CreateNewAccount(User loggedOnUser)
+        {
+            throw new NotImplementedException();
+        }
+
         //public Plant GetPlantByCategory(int input)
         //{
         //    var sql = @"SELECT PlantId, Name
