@@ -31,14 +31,12 @@ namespace PlantApp
                 }
                 return list;
             }
-
-
         }
 
         internal bool CheckIfUserIsValid(User loggedOnUser)
         {
             bool userExist = false;
-            var sql = "SELECT COUNT(*) FROM User WHERE UserName = @userName AND PassWord = @passWord";
+            var sql = "SELECT COUNT(*) FROM [User] WHERE UserName = @userName AND PassWord = @passWord";
 
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
