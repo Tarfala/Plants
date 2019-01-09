@@ -7,6 +7,10 @@ namespace PlantApp
 {
     partial class App
     {
+        public string passWord;
+        public string userName;
+        public string email;
+
         DataAccess _dataAccess = new DataAccess();
 
         internal void Run()
@@ -23,10 +27,10 @@ namespace PlantApp
             {
                 WriteLine("Logga in i applikationen");
                 Write("Användarnamn: ");
-                string userName = Console.ReadLine();
+                userName = Console.ReadLine();
                 WriteLine("");
                 Write("Lösenord: ");
-                string passWord = Console.ReadLine();
+                passWord = Console.ReadLine();
                 User loggedOnUser = new User();
                 loggedOnUser.UserName = userName;
                 loggedOnUser.PassWord = passWord;
@@ -48,7 +52,7 @@ namespace PlantApp
 
                     if(userValid == true)
                     {
-                        MainMenu(loggedOnUser);
+                        MainMenu();
                     }
                 }
 
@@ -69,12 +73,12 @@ namespace PlantApp
                 loggedOnUser.PassWord = passWord;
                 loggedOnUser.Email = email;
                 _dataAccess.CreateNewAccount(loggedOnUser);
-                MainMenu(loggedOnUser);
+                MainMenu();
             }
 
         }
 
-        private void MainMenu(User loggedOnUser)
+        private void MainMenu()
         {
             Header("HuvudMeny");
             WriteLine("a) Visa plantorna i databasen\n" +
@@ -102,7 +106,7 @@ namespace PlantApp
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu(null);
+                MainMenu();
             }
         }
 
@@ -123,13 +127,13 @@ namespace PlantApp
                 SearchTips();
 
             if (key == ConsoleKey.C)
-                MainMenu(null);
+                MainMenu();
 
             else
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu(null);
+                MainMenu();
             }
 
         }
@@ -155,13 +159,13 @@ namespace PlantApp
                 ShowUserInformation();
 
             if (key == ConsoleKey.D)
-                MainMenu(null);
+                MainMenu();
 
             else
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu(null);
+                MainMenu();
             }
 
         }
@@ -187,13 +191,13 @@ namespace PlantApp
                 AddPlant();
 
             if (key == ConsoleKey.D)
-                MainMenu(null);
+                MainMenu();
 
             else
             {
                 WriteLine("Nu blev det fel!");
                 Console.ReadKey();
-                MainMenu(null);
+                MainMenu();
             }
             
         }       
