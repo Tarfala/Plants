@@ -25,7 +25,7 @@ namespace PlantApp
                     {
                         PlantId = reader.GetSqlInt32(0).Value,
                         Name = reader.GetSqlString(1).Value,
-                        
+
                     };
                     list.Add(bp);
                 }
@@ -33,6 +33,34 @@ namespace PlantApp
             }
 
 
+        }
+
+        internal bool CheckIfUserIsValid(User loggedOnUser)
+        {
+            bool userExist = false;
+            var sql = "SELECT COUNT(*) FROM User WHERE UserName = @userName AND PassWord = @passWord";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("userName", loggedOnUser.UserName));
+                command.Parameters.Add(new SqlParameter("passWord", loggedOnUser.PassWord));
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    int countTag = reader.GetSqlInt32(0).Value;
+                    if (countTag == 1)
+                        userExist = true;
+                }
+            }
+            return userExist;
+        }
+
+        internal void CreateNewAccount(User loggedOnUser)
+        {
+            throw new NotImplementedException();
         }
 
         //public Plant GetPlantByCategory(int input)
