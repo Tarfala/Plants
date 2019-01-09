@@ -10,7 +10,7 @@ namespace PlantApp
 
        private void ShowAllUserPlants()
         {
-            //Visar alla registrerade användarblommor och vem som äger dem.
+            Header("Alla användarplantor");
         }
 
        private void ShowPlantsOnUser()

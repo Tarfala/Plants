@@ -39,7 +39,7 @@ namespace PlantApp
             if (key == ConsoleKey.C)
                 SearchTipsMenu();
 
-            if (key == ConsoleKey.C)
+            if (key == ConsoleKey.D)
                 Environment.Exit(0);
 
 
