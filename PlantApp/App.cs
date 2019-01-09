@@ -39,5 +39,27 @@ namespace PlantApp
             ShowAllPlantsOnName();
         }
 
+        public void WriteLine(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(text);
+            Console.ResetColor();
+
+        }
+        public void Write(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(text);
+            Console.ResetColor();
+
+        }
+        public void Header(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(text.ToUpper());
+            Console.WriteLine();
+            Console.ResetColor();
+
+        }
     }
 }
