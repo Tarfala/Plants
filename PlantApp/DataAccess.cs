@@ -59,17 +59,7 @@ namespace PlantApp
         internal void CreateNewAccount(User loggedOnUser)
         {
             throw new NotImplementedException();
-        }
-
-        //public Plant GetPlantByCategory(int input)
-        //{
-        //    var sql = @"SELECT PlantId, Name
-        //                FROM Plant 
-        //                WHERE PlantTypeId=@input";
-        //    using (SqlConnection connection = new SqlConnection(conString))
-        //    using (SqlCommand command = new SqlCommand(sql, connection))
-        //    {
-        //        connection.Open();
+        }        
 
         public List<Plant> GetPlantByCategory(int input)
         {
