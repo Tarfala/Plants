@@ -71,22 +71,33 @@ namespace PlantApp
         //    {
         //        connection.Open();
 
-        //        SqlDataReader reader = command.ExecuteReader();
+public List<Plant> GetPlantByCategory(int input)
+        {
+            var sql = @"SELECT PlantId, Name, PlantType.PlantType
+                        FROM Plant 
+                        inner join PlantType on Plant.PlantTypeId=PlantType.PlantTypeId
+                        WHERE PlantId=@InputId";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("InputId", input));
+                SqlDataReader reader = command.ExecuteReader();
 
-        //        var list = new List<Plant>();
+                var list = new List<Plant>();
 
-        //        while (reader.Read())
-        //        {
-        //            var bp = new Plant
-        //            {
-        //                PlantId = reader.GetSqlInt32(0).Value,
-        //                Name = reader.GetSqlString(1).Value,
-        //            };
-        //            list.Add(bp);
-        //        }
-        //        return list;
-        //    }
-        //}
+                while (reader.Read())
+                {
+                    var bp = new Plant
+                    {
+                        PlantId = reader.GetSqlInt32(0).Value,
+                        Name = reader.GetSqlString(1).Value,
+                    };
+                    list.Add(bp);
+                }
+                return list;
+            }
+        }
 
         internal List<PlantType> GetCategort()
         {

@@ -31,7 +31,7 @@ namespace PlantApp
             }
             WriteLine("");
             int input = int.Parse(Console.ReadLine());
-            //Plant plantCategory = _dataAccess.GetPlantByCategory(input);
+            List<Plant> plantCategory = _dataAccess.GetPlantByCategory(input);
 
 
         }
