@@ -6,6 +6,8 @@ namespace PlantApp
 {
     partial class App
     {
+        DataAccess _dataAccess = new DataAccess();
+
         internal void Run()
         {
             Login();
@@ -36,6 +38,29 @@ namespace PlantApp
         private void ShowPlantsMenu()
         {
             // Visa efter bokstav - 
+
+        }
+
+        public void WriteLine(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(text);
+            Console.ResetColor();
+
+        }
+        public void Write(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(text);
+            Console.ResetColor();
+
+        }
+        public void Header(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(text.ToUpper());
+            Console.WriteLine();
+            Console.ResetColor();
 
         }
     }
