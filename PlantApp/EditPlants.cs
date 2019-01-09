@@ -6,6 +6,10 @@ namespace PlantApp
 {
     partial class App
     {
-        // Här redigerar vi saker som har med plantorna/databasplantor att göra
+        private void ShowAllPlantsOnName()
+        {
+
+
+        }
     }
 }

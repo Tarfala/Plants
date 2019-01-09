@@ -6,6 +6,7 @@ namespace PlantApp
 {
     partial class App
     {
+        DataAccess _dataAccess = new DataAccess();
         internal void Run()
         {
             Login();
@@ -35,8 +36,8 @@ namespace PlantApp
 
         private void ShowPlantsMenu()
         {
-            // Visa efter bokstav - 
-
+            ShowAllPlantsOnName();
         }
+
     }
 }
