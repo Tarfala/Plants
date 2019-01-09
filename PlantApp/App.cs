@@ -53,6 +53,29 @@ namespace PlantApp
 
         private void SearchTipsMenu()
         {
+            Header("Tips");
+            WriteLine("a) Visa alla tips\n" +
+                "b) Sök på tips\n" +
+                "c) Gå tillbaka");
+
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.A)
+                ShowAllTips();
+
+            if (key == ConsoleKey.B)
+                SearchTips();
+
+            if (key == ConsoleKey.C)
+                MainMenu();
+
+            else
+            {
+                WriteLine("Nu blev det fel!");
+                Console.ReadKey();
+                MainMenu();
+            }
 
         }
 
@@ -136,6 +159,7 @@ namespace PlantApp
         }
         public void Header(string text)
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(text.ToUpper());
             Console.WriteLine();

@@ -17,6 +17,8 @@ namespace PlantApp
                 WriteLine(bp.PlantId.ToString().PadRight(5) + bp.Name.PadRight(30));
             }
             WriteLine("");
+            Console.ReadKey();
+            ShowPlantsMenu();
         }
         private void ShowOnCategory()
         {
