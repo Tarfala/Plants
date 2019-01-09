@@ -32,7 +32,13 @@ namespace PlantApp
             WriteLine("");
             int input = int.Parse(Console.ReadLine());
             List<Plant> plantCategory = _dataAccess.GetPlantByCategory(input);
-
+            foreach (Plant bp in plantCategory)
+            {
+                WriteLine(bp.PlantId.ToString().PadRight(5) + bp.Name.PadRight(30));
+            }
+            WriteLine("");
+            Console.ReadKey();
+            ShowPlantsMenu();
 
         }
         private void AddPlant()
