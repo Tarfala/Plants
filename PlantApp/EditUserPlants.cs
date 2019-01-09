@@ -8,5 +8,15 @@ namespace PlantApp
     {
         // Här fixar vi med användarplantor.
 
+       private void ShowAllUserPlants()
+        {
+            //Visar alla registrerade användarblommor och vem som äger dem.
+        }
+
+       private void ShowPlantsOnUser()
+        {
+            // Visar alla plantor registrerade på användare. 
+        }
+
     }
 }

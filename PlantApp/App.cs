@@ -58,6 +58,34 @@ namespace PlantApp
 
         private void SeeUserPlantsMenu()
         {
+            Header("Användarväxter");
+            WriteLine("a) Visa mina växter\n" +
+                "b) Se andras växter\n" +
+                "c) Användaruppgifter\n" +
+                "d) Gå tillbaka");
+
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.A)
+                ShowPlantsOnUser();
+
+            if (key == ConsoleKey.B)
+               ShowAllUserPlants();
+
+            if (key == ConsoleKey.C)
+                ShowUserInformation();
+
+            if (key == ConsoleKey.D)
+                MainMenu();
+
+            else
+            {
+                WriteLine("Nu blev det fel!");
+                Console.ReadKey();
+                MainMenu();
+            }
+
         }
 
         private void ShowPlantsMenu()
