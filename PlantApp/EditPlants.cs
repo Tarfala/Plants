@@ -56,9 +56,9 @@ namespace PlantApp
             }
             Write("Plantan som ska väljas: ");
             string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant();
-            Header("Info on plant");
-            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            Header("Info om plantan");
+            PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
             foreach (Plant bp in singePlant)
             {
@@ -66,7 +66,7 @@ namespace PlantApp
             }
             Console.WriteLine("");
 
-
+            
             var firstElement = singePlant.First().Name;
             //Console.WriteLine(firstElement);
             PrintGreenText("Vad vill du göra med " + firstElement + "en?");
@@ -94,7 +94,7 @@ namespace PlantApp
                     UpDatePlantInfo(singePlant[0].PlantId);
                     break;
                 }
-                if (input == ConsoleKey.E)
+                if (input == ConsoleKey.D)
                 {
                     MainMenu();
                 }
