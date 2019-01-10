@@ -141,7 +141,10 @@ namespace PlantApp
             }
             return types;
         }
-internal void CreateNewAccount(User loggedOnUser)
+
+       
+
+        internal void CreateNewAccount(User loggedOnUser)
         {
             var sql = @"INSERT INTO [User] (UserName, PassWord, Email, UserLevelId, ZoneId, UserLocationId) VALUES (@userName, @passWord, @email, 1, @zoneId, @locationID)";
 
@@ -155,6 +158,21 @@ internal void CreateNewAccount(User loggedOnUser)
                 command.Parameters.Add(new SqlParameter("zoneId", loggedOnUser.ZoneId));
                 command.Parameters.Add(new SqlParameter("locationId", loggedOnUser.UserLocationId));
                 command.ExecuteNonQuery();   
+            }
+        }
+
+        internal void AddPlant(Plant added)
+        {
+            var sql = @"insert into Plant (Name, LatinName, WaterFrekuenseInDays, LocationId, PlantTypeId, ScentId, SoilId, NutritionId, OriginId, PoisonId, GeneralInfo) Values (@Name, @LatinName, @WaterFrekuenseInDays, 1, 1, 1, 1, 1, 1, 1, @GeneralInfo)";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("Name", added.Name));
+                command.Parameters.Add(new SqlParameter("LatinName", added.LatinName));
+                command.Parameters.Add(new SqlParameter("WaterFrekuenseInDays", added.WaterFrekuenseInDays));
+                command.Parameters.Add(new SqlParameter("GeneralInfo", added.GeneralInfo));          
+                command.ExecuteNonQuery();
             }
         }
 
