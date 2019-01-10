@@ -10,7 +10,10 @@ namespace PlantApp
     {
        private void ShowUserInformation()
         {
-
+            Header("Användarinformation");
+            WriteLine($"Användarnamn: {loggedOnUser.UserName}");
+            WriteLine($"Email: {loggedOnUser.Email}");
+            
         }
     }
 }
