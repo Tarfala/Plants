@@ -1,6 +1,7 @@
 ﻿using PlantApp.Domain;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -20,6 +21,9 @@ namespace PlantApp
             }
             WriteLine("");
             Console.ReadKey();
+            Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "http://www.google.com"); // Ska visa bilder på växten
+
+
             ShowPlantsMenu();
         }
         private void ShowOnCategory()

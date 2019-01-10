@@ -11,6 +11,7 @@ namespace PlantApp
         internal void Run()
         {
             Login();
+
         }
 
         private void Login()
@@ -26,7 +27,7 @@ namespace PlantApp
                 "b) Visa användarplantor\n" +
                 "c) Sök bland tips\n" +
                 "d) Avsluta");
-           
+
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
