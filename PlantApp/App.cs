@@ -10,8 +10,8 @@ namespace PlantApp
         public string passWord;
         public string userName;
         public string email;
-
         DataAccess _dataAccess = new DataAccess();
+        public User loggedOnUser = new User();
 
         internal void Run()
         {
@@ -20,10 +20,54 @@ namespace PlantApp
 
         private void Login()
         {
-            Header("Plant");
-            WriteLine("För att logga in i Plant skriv (L). Om du inte har ett konto skriv (N) för att skapa nytt konto");
+            Header("Plantbook");
+            WriteLine("Inloggning");
+            WriteLine("a) Logga in i Plant");
+            WriteLine("b) Skapa nytt användarkonto.");
             ConsoleKey command = Console.ReadKey(true).Key;
-            if(command == ConsoleKey.L)
+
+            if(command == ConsoleKey.A)
+            {
+                UserLoggIn();
+                Login();
+            }
+            if(command == ConsoleKey.B)
+            {
+                CreateAccount();
+                MainMenu();
+            }
+
+        }
+
+        private void CreateAccount()
+        {
+            while (true)
+            {
+                Write("Ange ett användarnamn: ");
+                userName = Console.ReadLine();
+                WriteLine("");
+                Write("Ange ett lösenord: ");
+                passWord = Console.ReadLine();
+                WriteLine("");
+                Write("Ange en e-post: ");
+                email = Console.ReadLine(); // lägg till validering av e-post.
+                loggedOnUser.UserName = userName;
+                loggedOnUser.PassWord = passWord;
+                loggedOnUser.Email = email;
+                bool testUserName = _dataAccess.TestOfUserName(loggedOnUser);
+                if (testUserName == false)
+                    break;
+                else
+                {
+                    WriteLine("Användarnamnet är upptaget, välj ett nytt.");
+                }
+            }
+            _dataAccess.CreateNewAccount(loggedOnUser);
+        }
+
+        private void UserLoggIn()
+        {
+            while (true)
             {
                 WriteLine("Logga in i applikationen");
                 Write("Användarnamn: ");
@@ -31,51 +75,25 @@ namespace PlantApp
                 WriteLine("");
                 Write("Lösenord: ");
                 passWord = Console.ReadLine();
-                User loggedOnUser = new User();
                 loggedOnUser.UserName = userName;
                 loggedOnUser.PassWord = passWord;
-                while (true)
+                bool userValid = _dataAccess.CheckIfUserIsValid(loggedOnUser);
+                if (userValid == false)
                 {
-                    bool userValid = _dataAccess.CheckIfUserIsValid(loggedOnUser);
-                    if (userValid == false)
+                    WriteLine("Användaren finns inte eller så är användarnamn eller lösenord felaktiga.");
+                    WriteLine("För att få information om lösenord kontakta admin.");
+                    WriteLine("Vill du fösöka logga in igen tryck I annars valfri tangent.");
+                    ConsoleKey loggInCommand = Console.ReadKey(true).Key;
+                    if (loggInCommand != ConsoleKey.I)
                     {
-                        WriteLine("Användaren finns inte eller så är användarnamn eller lösenord felaktiga.");
-                        WriteLine("För att få information om lösenord kontakta admin.");
-                        WriteLine("Vill du fösöka logga in igen tryck I annars valfri tangent.");
-                        ConsoleKey loggInCommand = Console.ReadKey(true).Key;
-                        if(loggInCommand != ConsoleKey.I)
-                        {
-                            break;
-                        }
-
-                    }
-
-                    if(userValid == true)
-                    {
-                        MainMenu();
+                        break;
                     }
                 }
-
-                Login();
+                if (userValid == true)
+                {
+                    MainMenu();
+                }
             }
-            if(command == ConsoleKey.N)
-            {
-                Write("Ange ett användarnamn: ");
-                string userName = Console.ReadLine();
-                WriteLine("");
-                Write("Ange ett lösenord: ");
-                string passWord = Console.ReadLine();
-                WriteLine("");
-                Write("Ange en e-post: ");
-                string email = Console.ReadLine(); // lägg till validering av e-post.
-                User loggedOnUser = new User();
-                loggedOnUser.UserName = userName;
-                loggedOnUser.PassWord = passWord;
-                loggedOnUser.Email = email;
-                _dataAccess.CreateNewAccount(loggedOnUser);
-                MainMenu();
-            }
-
         }
 
         private void MainMenu()
