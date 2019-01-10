@@ -20,12 +20,92 @@ namespace PlantApp
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
             WriteLine("");
-            Console.ReadKey();
-            Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "http://www.google.com"); // Ska visa bilder på växten
+            // Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "http://www.google.com"); // Ska visa bilder på växten
+            PrintGreenText("What do you want to do?");
+            WriteLine("a) Pick a plant to work with");
+            WriteLine("b) Go to main menu");
+            while (true)
+            {
+                ConsoleKey command = Console.ReadKey(true).Key;
+
+                if (command == ConsoleKey.A)
+                {
+                    PickAPlant(sortedList);
+                    break;
+                }
+                if (command == ConsoleKey.B)
+                {
+                    MainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, wrong input...");
+                }
+            }
+
 
 
             ShowPlantsMenu();
         }
+
+        private void PickAPlant(List<Plant> sortedList)
+        {
+            Header("What plant do you want to work with? Pick a Id");
+            foreach (Plant bp in sortedList)
+            {
+                WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
+            }
+            WriteLine("");
+            string command = Console.ReadLine();
+            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            Header("Info on plant");
+            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+
+            foreach (Plant bp in singePlant)
+            {
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+            }
+           
+            Console.ReadLine();
+
+        }
+
+
+
+
+        private void WorkWithPlant(string command)
+        {
+            Header("What do you want to show?");
+            WriteLine("a) Show an image of the plant");
+            WriteLine("b) Show information about the plant");
+            WriteLine("c) Add tips to other users");
+
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+
+                if (input == ConsoleKey.A)
+                {
+
+                    break;
+                }
+                if (input == ConsoleKey.B)
+                {
+                    break;
+
+                }
+                if (input == ConsoleKey.C)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, wrong input...");
+                }
+            }
+
+        }
+
         private void ShowOnCategory()
         {
             Header("Select the category you want to see");
