@@ -41,9 +41,6 @@ namespace PlantApp
                     Console.WriteLine("Sorry, wrong input...");
                 }
             }
-
-
-
             ShowPlantsMenu();
         }
 
@@ -55,8 +52,8 @@ namespace PlantApp
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
             Write("Plant to pick: ");
-            string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            //string command = Console.ReadLine();
+            List<Plant> singePlant = _dataAccess.GetSinglePlant();
             Header("Info on plant");
             PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
 
@@ -68,8 +65,8 @@ namespace PlantApp
 
             
             var firstElement = singePlant.First().Name;
-            Console.WriteLine(firstElement);
-            Header("Vad vill du göra med" + firstElement + "en?");
+            //Console.WriteLine(firstElement);
+            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
             WriteLine("a) Google efter plantan");
             WriteLine("b) Lägg till en kommentar");
             WriteLine("c) Gå till huvudmenyn");

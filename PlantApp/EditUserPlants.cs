@@ -27,7 +27,7 @@ namespace PlantApp
                 Console.WriteLine();
             }
             Console.ReadKey();
-            SearchPlants();
+            SeeUserPlantsMenu();
         }
 
        private void ShowPlantsOnUser()

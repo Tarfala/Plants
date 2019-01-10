@@ -55,15 +55,24 @@ namespace PlantApp
             return userExist;
         }
 
-        public List<Plant> GetSinglePlant(string command)
+        public List<Plant> GetSinglePlant()
         {
-            int input = int.Parse(command);
+            int number;
+            while (true)
+            {
+                bool input = int.TryParse(Console.ReadLine(), out number);
+                if (input == true)
+                    break;
+                else
+                    Console.WriteLine("Du mattade inte in en siffra. Välj en siffra från listan.");
+            }
+
             var sql = @"SELECT * FROM Plant where PlantId=@input";
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command2 = new SqlCommand(sql, connection))
             {
                 connection.Open();
-                command2.Parameters.Add(new SqlParameter("input", input));
+                command2.Parameters.Add(new SqlParameter("input", number));
                 SqlDataReader reader = command2.ExecuteReader();
                 var list = new List<Plant>();
                 while (reader.Read())
@@ -156,6 +165,31 @@ internal void CreateNewAccount(User loggedOnUser)
                 command.Parameters.Add(new SqlParameter("locationId", loggedOnUser.UserLocationId));
                 command.ExecuteNonQuery();   
             }
+        }
+
+        internal List<Plant> SearchWithWord(string searchWord)
+        {
+            List<Plant> plantList = new List<Plant>();
+            var sql = @"SELECT PlantId, [Name] FROM Plant WHERE Name LIKE '%' + @search + '%'";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using(SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("search", searchWord));
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Plant plant = new Plant()
+                    {
+                        PlantId = reader.GetSqlInt32(0).Value,
+                        Name = reader.GetSqlString(1).Value,
+                    };
+                    plantList.Add(plant);
+                }
+            }
+            return plantList;
         }
 
         internal bool TestOfUserName(User loggedOnUser)

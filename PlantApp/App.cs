@@ -38,6 +38,11 @@ namespace PlantApp
                 CreateAccount();
                 MainMenu();
             }
+            else
+            {
+                WriteLine("Fel val. Välj a eller b.");
+                Login();
+            }
                 
 
         }
@@ -142,9 +147,8 @@ namespace PlantApp
             Header("HuvudMeny");
             WriteLine("a) Visa plantorna i databasen\n" +
                 "b) Visa användarplantor\n" +
-                "c) Friordssök på plantor" +
-                "d) Sök bland tips\n" +
-                "e) Avsluta");
+                "c) Friordssök på plantor\n" +
+                "d) Avsluta");
 
 
             ConsoleKey key = Console.ReadKey(true).Key;
@@ -153,15 +157,12 @@ namespace PlantApp
                 ShowPlantsMenu();
 
             if (key == ConsoleKey.B)
-                SearchPlants();
+                SeeUserPlantsMenu();
 
             if (key == ConsoleKey.C)
                 SearchPlantOnWord();
 
             if (key == ConsoleKey.D)
-                SearchTipsMenu();
-
-            if (key == ConsoleKey.E)
                 Environment.Exit(0);
 
 
@@ -178,37 +179,57 @@ namespace PlantApp
             Header("Sök i PlantBook");
             WriteLine("Sök med valfritt ord i växtdatabasen");
             Write("Sökord: ");
-        }
+            string searchWord = Console.ReadLine();
+            List<Plant> searchPlantList = _dataAccess.SearchWithWord(searchWord);
 
-        private void SearchTipsMenu()
-        {
-            Header("Tips");
-            WriteLine("a) Visa alla tips\n" +
-                "b) Sök på tips\n" +
-                "c) Gå tillbaka");
-
-
-            ConsoleKey key = Console.ReadKey(true).Key;
-
-            if (key == ConsoleKey.A)
-                ShowAllTips();
-
-            if (key == ConsoleKey.B)
-                SearchTips();
-
-            if (key == ConsoleKey.C)
-                MainMenu();
-
-            else
+            foreach (var plant in searchPlantList)
             {
-                WriteLine("Nu blev det fel!");
-                Console.ReadKey();
-                MainMenu();
+                WriteLine(plant.PlantId.ToString().PadRight(5) + plant.Name.PadRight(30));
             }
 
+            Write("Välj växt du vill se: ");
+            List<Plant> singelPlant = _dataAccess.GetSinglePlant();
+
+            Header("Info on plant");
+            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+
+            foreach (Plant bp in singelPlant)
+            {
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+            }
+            Console.WriteLine("");
+            var firstElement = singelPlant[0].Name;
+            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
+            WriteLine("a) Google efter plantan");
+            WriteLine("b) Lägg till en kommentar");
+            WriteLine("c) Gå till huvudmenyn");
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+
+                if (input == ConsoleKey.A)
+                {
+                    //Google ska läggas in efter pushning.
+                    break;
+                }
+                if (input == ConsoleKey.B)
+                {
+                    //Kommentar läggs in efter pushning.
+                }
+                if (input == ConsoleKey.C)
+                {
+                    MainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, wrong input...");
+                }
+            }
+            Console.ReadLine();
+            MainMenu();
         }
 
-        private void SearchPlants()
+        private void SeeUserPlantsMenu()
         {
             Header("Användarväxter");
             WriteLine("a) Visa mina växter\n" +

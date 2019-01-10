@@ -91,9 +91,6 @@ WHERE UserPlants.UserId=@UserId
                     }
                     return list;
                 }
-
-
-
             }
         }
 }
