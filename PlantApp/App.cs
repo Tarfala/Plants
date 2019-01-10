@@ -153,7 +153,7 @@ namespace PlantApp
                 ShowPlantsMenu();
 
             if (key == ConsoleKey.B)
-                SearchPlants();
+                SeeUserPlantMenu();
 
             if (key == ConsoleKey.C)
                 SearchPlantOnWord();
@@ -208,7 +208,7 @@ namespace PlantApp
 
         }
 
-        private void SearchPlants()
+        private void SeeUserPlantMenu()
         {
             Header("Användarväxter");
             WriteLine("a) Visa mina växter\n" +

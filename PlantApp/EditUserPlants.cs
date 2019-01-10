@@ -27,7 +27,7 @@ namespace PlantApp
                 Console.WriteLine();
             }
             Console.ReadKey();
-            SearchPlants();
+            SeeUserPlantMenu();
         }
 
        private void ShowPlantsOnUser()
@@ -52,8 +52,44 @@ namespace PlantApp
                     $"{plant.UserInfo}");
                 Console.WriteLine();
             }
+
+            WriteLine("");
+            WriteLine("a) Uppdatera Planta");
+            WriteLine("b) Vattna Planta");
+            WriteLine("c) Gå tillbaka");
+
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.A)
+                UpdateUserPlant(AllUserPlants);
+
+            if (key == ConsoleKey.B)
+                ShowAllUserPlants();
+
+            if (key == ConsoleKey.C)
+                ShowUserInformation();
+
+            if (key == ConsoleKey.D)
+                MainMenu();
+
+            else
+            {
+                WriteLine("Nu blev det fel!");
+                Console.ReadKey();
+                MainMenu();
+            }
+
+
+
+
+
+
+
+
+
             Console.ReadKey();
-            SeeUserPlantsMenu();
+            SeeUserPlantMenu();
         }
 
 
@@ -103,9 +139,28 @@ namespace PlantApp
                 countDown = "";
                 return countDown;
             }
-
-            
-
         }
+
+            private void UpdateUserPlant(List<UserPlant> list)
+            {
+            Header("Uppdatera planta");
+            foreach (var plant in list)
+            {
+                WriteLine("Id: " + plant.UserPlantId);
+                WriteLine("Namn: " + plant.Name);
+            }
+           
+            WriteLine("Vilken Planta vill du uppdatera?");
+            int uppdPlant = int.Parse(Console.ReadLine());
+            UserPlant PlantToUppdate =_dataAccess.FindPlantOnId(uppdPlant);
+
+            Header("Uppdaterar" + PlantToUppdate.Name);
+
+            WriteLine("Vad vill du uppdatera?");
+            // Lication, Waterfrequence, Ta bort, kommentar/info.
+
+
+            }
+
     }
 }
