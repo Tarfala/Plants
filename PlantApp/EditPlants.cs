@@ -94,7 +94,7 @@ namespace PlantApp
                     UpDatePlantInfo(singePlant[0].PlantId);
                     break;
                 }
-                if (input == ConsoleKey.D)
+                if (input == ConsoleKey.E)
                 {
                     MainMenu();
                 }
