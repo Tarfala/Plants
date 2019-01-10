@@ -116,6 +116,11 @@ namespace PlantApp
             return types;
         }
 
+        internal void AddComment(List<Plant> singePlant, string comment)
+        {
+            // var sql = @"INSERT INTO Comment, (UserName, PassWord, Email,
+        }
+
         internal List<Location> GetAppartmentTypes()
         {
             List<Location> types = new List<Location>();

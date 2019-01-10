@@ -89,7 +89,7 @@ namespace PlantApp
                 }
                 else
                 {
-                    Console.WriteLine("Sorry, wrong input...");
+                    Console.WriteLine("Felaktig input");
                 }
             }         
 
@@ -103,9 +103,14 @@ namespace PlantApp
             MainMenu();
         }
 
-        private void AddACommentToPlant(List<Plant> sortedList)
+        private void AddACommentToPlant(List<Plant> singePlant)
         {
-                        
+            Header("Lägg till kommentar om " + singePlant[0].Name);
+            string comment = Console.ReadLine();
+            _dataAccess.AddComment(singePlant, comment);
+
+            Console.WriteLine("Test");
+            Console.ReadLine();
         }
 
         private void WorkWithPlant(string command)

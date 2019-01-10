@@ -49,7 +49,7 @@ namespace PlantApp
                 Console.WriteLine();
             }
             Console.ReadKey();
-            SeeUserPlantsMenu();
+            // SeeUserPlantsMenu();
         }
 
     }
