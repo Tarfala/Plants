@@ -41,6 +41,9 @@ namespace PlantApp
                     Console.WriteLine("Sorry, wrong input...");
                 }
             }
+
+
+
             ShowPlantsMenu();
         }
 
@@ -51,11 +54,11 @@ namespace PlantApp
             {
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
-            Write("Plant to pick: ");
+            Write("Plantan som ska väljas: ");
             string command = Console.ReadLine();
             List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
-            Header("Info on plant");
-            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+            Header("Info om plantan");
+            PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
             foreach (Plant bp in singePlant)
             {
@@ -65,8 +68,8 @@ namespace PlantApp
 
             
             var firstElement = singePlant.First().Name;
-            //Console.WriteLine(firstElement);
-            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
+            Console.WriteLine(firstElement);
+            Header("Vad vill du göra med" + firstElement + "en?");
             WriteLine("a) Google efter plantan");
             WriteLine("b) Lägg till en kommentar");
             WriteLine("c) Gå till huvudmenyn");
@@ -86,7 +89,7 @@ namespace PlantApp
                 }
                 else
                 {
-                    Console.WriteLine("Felaktig input");
+                    Console.WriteLine("Sorry, wrong input...");
                 }
             }         
 
@@ -100,14 +103,9 @@ namespace PlantApp
             MainMenu();
         }
 
-        private void AddACommentToPlant(List<Plant> singePlant)
+        private void AddACommentToPlant(List<Plant> sortedList)
         {
-            Header("Lägg till kommentar om " + singePlant[0].Name);
-            string comment = Console.ReadLine();
-            _dataAccess.AddComment(singePlant, comment);
-
-            Console.WriteLine("Test");
-            Console.ReadLine();
+                        
         }
 
         private void WorkWithPlant(string command)

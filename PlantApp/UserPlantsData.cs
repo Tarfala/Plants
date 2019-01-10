@@ -114,26 +114,49 @@ WHERE UserPlants.UserPlantId=@UserPlantId
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                    var up = new UserPlant
-                    {
-                        UserPlantId = reader.GetSqlInt32(0).Value,
-                        Name = reader.GetSqlString(1).Value,
-                        Location = reader.GetSqlString(2).Value,
-                        WaterFrequence = reader.GetSqlInt32(3).Value,
-                        Soil = reader.GetSqlString(4).Value,
-                        Nutrition = reader.GetSqlString(5).Value,
-                        Bought = reader.GetSqlDateTime(6).Value,
-                        UserInfo = reader.GetSqlString(7).Value,
-                        UserId = reader.GetSqlInt32(8).Value,
-                        UserName = reader.GetSqlString(9).Value,
-                        LastWatered = reader.GetSqlDateTime(10).Value,
-                    };
+                var up = new UserPlant
+                {
+                    UserPlantId = reader.GetSqlInt32(0).Value,
+                    Name = reader.GetSqlString(1).Value,
+                    Location = reader.GetSqlString(2).Value,
+                    WaterFrequence = reader.GetSqlInt32(3).Value,
+                    Soil = reader.GetSqlString(4).Value,
+                    Nutrition = reader.GetSqlString(5).Value,
+                    Bought = reader.GetSqlDateTime(6).Value,
+                    UserInfo = reader.GetSqlString(7).Value,
+                    UserId = reader.GetSqlInt32(8).Value,
+                    UserName = reader.GetSqlString(9).Value,
+                    LastWatered = reader.GetSqlDateTime(10).Value,
+                };
                 return up;
 
             }
         }
+        public void DeleteUserPlant(int UserPlantId)
+        {
+
+        }
 
 
+        public void UpdateUserPlant(UserPlant newUserPlant)
+        {
+            var sql = @"UPDATE UserPlants 
+                    SET WaterFrekuenseInDays=@WaterFrekuenseInDays, Comment=@Comment, LastWater=@LastWater 
+                    WHERE UserPlantId=@UserPlantId";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("UserPlantId", newUserPlant.UserPlantId));
+                command.Parameters.Add(new SqlParameter("WaterFrekuenseInDays", newUserPlant.WaterFrequence));
+                command.Parameters.Add(new SqlParameter("Comment", newUserPlant.UserInfo));
+                command.Parameters.Add(new SqlParameter("LastWater", newUserPlant.LastWatered));
+
+                command.ExecuteNonQuery();
+
+            }
+        }
     }
 }
 
