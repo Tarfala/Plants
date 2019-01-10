@@ -6,7 +6,7 @@ using PlantApp.Domain;
 
 namespace PlantApp
 {
-    class DataAccess
+    partial class DataAccess
     {
         private const string conString = "Server=(localdb)\\mssqllocaldb; Database=Plants";
 
