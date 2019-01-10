@@ -16,6 +16,7 @@ namespace PlantApp.Domain
         public string UserInfo { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public DateTime LastWatered { get; set; }
 
 
     }
