@@ -34,22 +34,22 @@ namespace PlantApp
         {
             // Visar alla plantor registrerade på användare. 
 
-            //Header("Alla Dina Plantor");
+            Header("Alla Dina Plantor");
 
-            //List<UserPlant> AllUserPlants = _dataAccess.ShowAllPlantsOnUser();
+            List<UserPlant> AllUserPlants = _dataAccess.ShowAllPlantsOnUser(loggedOnUser.UserId);
 
-            //foreach (var plant in AllUserPlants)
-            //{
-            //    WriteLine(plant.Name);
-            //    WriteLine("User: " + plant.UserName);
-            //    WriteLine("Bought Date: " + plant.Bought);
-            //    WriteLine("Warter Frequence: " + plant.WaterFrequence);
-            //    WriteLine($"Info from: {plant.UserName} \n" +
-            //        $"{plant.UserInfo}");
-            //    Console.WriteLine();
-            //}
-            //Console.ReadKey();
-            //SeeUserPlantsMenu();
+            foreach (var plant in AllUserPlants)
+            {
+                WriteLine(plant.Name);
+                WriteLine("User: " + plant.UserName);
+                WriteLine("Bought Date: " + plant.Bought);
+                WriteLine("Warter Frequence: " + plant.WaterFrequence);
+                WriteLine($"Info from: {plant.UserName} \n" +
+                    $"{plant.UserInfo}");
+                Console.WriteLine();
+            }
+            Console.ReadKey();
+            SeeUserPlantsMenu();
         }
 
     }

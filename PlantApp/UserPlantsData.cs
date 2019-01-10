@@ -62,7 +62,7 @@ INNER JOIN Location ON UserPlants.LocationId=Location.LocationId
 INNER JOIN Soil ON UserPlants.SoildId=Soil.SoilId
 INNER JOIN Nutrition ON UserPlants.NutritionId=Nutrition.NutritionId
 INNER JOIN [User] ON UserPlants.UserId=[User].UserId
-WHERE UserId=@UserId
+WHERE UserPlants.UserId=@UserId
 ";
                 using (SqlConnection connection = new SqlConnection(conString))
                 using (SqlCommand command = new SqlCommand(sql, connection))
