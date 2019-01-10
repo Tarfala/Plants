@@ -17,6 +17,7 @@ namespace PlantApp
         internal void Run()
         {
             Login();
+            string user1 = loggedOnUser.UserName;
 
         }
 
@@ -31,13 +32,13 @@ namespace PlantApp
             if(command == ConsoleKey.A)
             {
                 UserLoggIn();
-                Login();
             }
             if(command == ConsoleKey.B)
             {
                 CreateAccount();
                 MainMenu();
             }
+                
 
         }
 
@@ -48,23 +49,49 @@ namespace PlantApp
                 Write("Ange ett användarnamn: ");
                 userName = Console.ReadLine();
                 WriteLine("");
-                Write("Ange ett lösenord: ");
-                passWord = Console.ReadLine();
-                WriteLine("");
-                Write("Ange en e-post: ");
-                email = Console.ReadLine(); // lägg till validering av e-post.
                 loggedOnUser.UserName = userName;
-                loggedOnUser.PassWord = passWord;
-                loggedOnUser.Email = email;
                 bool testUserName = _dataAccess.TestOfUserName(loggedOnUser);
+
                 if (testUserName == false)
+                {
+                    Write("Ange ett lösenord: ");
+                    passWord = Console.ReadLine();
+                    WriteLine("");
+                    Write("Ange en e-post: ");
+                    email = Console.ReadLine(); // lägg till validering av e-post.
+                    WriteLine("Välj hur bostads exponeras mot solen");
+                    List<Location> apparmentTypes = _dataAccess.GetAppartmentTypes();
+
+                    foreach (var location in apparmentTypes)
+                    {
+                        WriteLine(location.LocationId.ToString().PadLeft(5) + location.LocationIn.PadLeft(20));
+                    }
+
+                    Write("Exponering: ");
+                    loggedOnUser.UserLocationId = int.Parse(Console.ReadLine());
+                    WriteLine("I vilken klimatzon bor du?");
+                    List<Zone> zoneTypes = _dataAccess.GetZoneTypes();
+
+                    foreach (var zone in zoneTypes)
+                    {
+                        WriteLine(zone.OriginId.ToString().PadLeft(5) + zone.ZoneIn.PadLeft(20));
+                    }
+
+                    Write("Boendezon: ");
+                    loggedOnUser.ZoneId = int.Parse(Console.ReadLine());
+                    loggedOnUser.PassWord = passWord;
+                    loggedOnUser.Email = email;
                     break;
+                }
                 else
                 {
                     WriteLine("Användarnamnet är upptaget, välj ett nytt.");
                 }
             }
             _dataAccess.CreateNewAccount(loggedOnUser);
+            loggedOnUser = _dataAccess.GetUserData(userName);
+            WelcomeToPlantBook(loggedOnUser);
+            
         }
 
         private void UserLoggIn()
@@ -74,7 +101,6 @@ namespace PlantApp
                 WriteLine("Logga in i applikationen");
                 Write("Användarnamn: ");
                 userName = Console.ReadLine();
-                WriteLine("");
                 Write("Lösenord: ");
                 passWord = Console.ReadLine();
                 loggedOnUser.UserName = userName;
@@ -93,9 +119,22 @@ namespace PlantApp
                 }
                 if (userValid == true)
                 {
+                    loggedOnUser = _dataAccess.GetUserData(userName);
+                    WelcomeToPlantBook(loggedOnUser);
                     MainMenu();
+                    break;
                 }
             }
+        }
+
+        private void WelcomeToPlantBook(User loggedOnUser)
+        {
+            Header("PlantBook");
+            WriteLine("");
+            WriteLine($"Hej {loggedOnUser.UserName}!");
+            WriteLine("Du har loggat in i PlantBook.");
+            WriteLine("Tryck på valfri tangent för att fortsätta.");
+            Console.ReadKey();
         }
 
         private void MainMenu()

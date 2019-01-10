@@ -25,7 +25,6 @@ namespace PlantApp
                     {
                         PlantId = reader.GetSqlInt32(0).Value,
                         Name = reader.GetSqlString(1).Value,
-
                     };
                     list.Add(bp);
                 }
@@ -56,9 +55,61 @@ namespace PlantApp
             return userExist;
         }
 
+        internal List<Zone> GetZoneTypes()
+        {
+            List<Zone> types = new List<Zone>();
+
+            var sql = @"SELECT * FROM Origin";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Zone zone = new Zone();
+                    {
+                        zone.OriginId = reader.GetSqlInt32(0).Value;
+                        zone.ZoneIn = reader.GetSqlString(1).Value;
+                    }
+                    types.Add(zone);
+                }
+            }
+            return types;
+        }
+
+        internal List<Location> GetAppartmentTypes()
+        {
+            List<Location> types = new List<Location>();
+
+            var sql = @"SELECT * FROM Location";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using(SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Location location = new Location();
+                    {
+                        location.LocationId = reader.GetSqlInt32(0).Value;
+                        location.LocationIn = reader.GetSqlString(1).Value;
+                    }
+                    types.Add(location);
+                }
+            }
+            return types;
+        }
+
         internal void CreateNewAccount(User loggedOnUser)
         {
-            var sql = @"INSERT INTO [User] (UserName, PassWord, Email, UserLevelId, ZoneId, UserLocationId) VALUES (@userName, @passWord, @email, 1, 2, 3)";
+            var sql = @"INSERT INTO [User] (UserName, PassWord, Email, UserLevelId, ZoneId, UserLocationId) VALUES (@userName, @passWord, @email, 1, @zoneId, @locationID)";
 
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -67,6 +118,8 @@ namespace PlantApp
                 command.Parameters.Add(new SqlParameter("userName", loggedOnUser.UserName));
                 command.Parameters.Add(new SqlParameter("passWord", loggedOnUser.PassWord));
                 command.Parameters.Add(new SqlParameter("email", loggedOnUser.Email));
+                command.Parameters.Add(new SqlParameter("zoneId", loggedOnUser.ZoneId));
+                command.Parameters.Add(new SqlParameter("locationId", loggedOnUser.UserLocationId));
                 command.ExecuteNonQuery();   
             }
         }
@@ -92,6 +145,33 @@ namespace PlantApp
             return testUser;
         }
 
+        internal User GetUserData(string userName)
+        {
+            User user = new User();
+
+            var Sql = @"SELECT * FROM [User] WHERE UserName = @userName";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using(SqlCommand command = new SqlCommand(Sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("userName", userName));
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    user.UserId = reader.GetSqlInt32(0).Value;
+                    user.UserName = reader.GetSqlString(1).Value;
+                    user.PassWord = reader.GetSqlString(2).Value;
+                    user.UserLocationId = reader.GetSqlInt32(3).Value;
+                    user.ZoneId = reader.GetSqlInt32(4).Value;
+                    user.UserLevelId = reader.GetSqlInt32(5).Value;
+                    user.Email = reader.GetSqlString(6).Value;
+                }
+            }
+            return user;
+        }
+
         //public Plant GetPlantByCategory(int input)
         //{
         //    var sql = @"SELECT PlantId, Name
@@ -102,7 +182,7 @@ namespace PlantApp
         //    {
         //        connection.Open();
 
-public List<Plant> GetPlantByCategory(int input)
+        public List<Plant> GetPlantByCategory(int input)
         {
             var sql = @"SELECT PlantId, Name, PlantType.PlantType
                         FROM Plant 
