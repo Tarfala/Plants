@@ -125,9 +125,51 @@ namespace PlantApp
             return types;
         }
 
-        internal void AddComment(List<Plant> singePlant, string comment)
+        public List<PlantComment> ShowComment(Plant onlyOne)
         {
-            // var sql = @"INSERT INTO Comment, (UserName, PassWord, Email,
+            var sql = @"select comment, [user].UserName from Comment 
+                       inner join [User] on Comment.UserID=[user].UserId
+                       where Comment.PlantId=PlantId";
+
+            List<PlantComment> types = new List<PlantComment>();
+
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    PlantComment comment = new PlantComment();
+                    {
+                        comment.CommentFromUser = reader.GetSqlString(0).Value;
+                        comment.UserComment = reader.GetSqlString(1).Value;
+                    }
+                    types.Add(comment);
+                }
+            }
+            return types;
+
+        }
+
+        internal void AddComment(Plant onlyOne, string comment, User loggedOnUser)
+        {
+            DateTime dateNow = DateTime.Now;
+            var sql = @"INSERT INTO Comment (Comment, UserID, Time, Likes, CommentTypeId, PlantId) 
+                       Values (@comment, @UserID, @dateNow, 0, 1, @PlantId)";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("comment", comment));
+                command.Parameters.Add(new SqlParameter("dateNow", dateNow));
+                command.Parameters.Add(new SqlParameter("UserID", loggedOnUser.UserId));
+                command.Parameters.Add(new SqlParameter("PlantId", onlyOne.PlantId));
+                command.ExecuteNonQuery();
+            }
         }
 
         internal List<Location> GetAppartmentTypes()
