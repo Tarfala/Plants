@@ -56,7 +56,7 @@ namespace PlantApp
             }
             Write("Plantan som ska väljas: ");
             string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            List<Plant> singePlant = _dataAccess.GetSinglePlant();
             Header("Info om plantan");
             PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
