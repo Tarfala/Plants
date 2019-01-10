@@ -125,6 +125,11 @@ namespace PlantApp
             return types;
         }
 
+        internal void AddComment(List<Plant> singePlant, string comment)
+        {
+            // var sql = @"INSERT INTO Comment, (UserName, PassWord, Email,
+        }
+
         internal List<Location> GetAppartmentTypes()
         {
             List<Location> types = new List<Location>();
@@ -150,7 +155,10 @@ namespace PlantApp
             }
             return types;
         }
-internal void CreateNewAccount(User loggedOnUser)
+
+       
+
+        internal void CreateNewAccount(User loggedOnUser)
         {
             var sql = @"INSERT INTO [User] (UserName, PassWord, Email, UserLevelId, ZoneId, UserLocationId) VALUES (@userName, @passWord, @email, 1, @zoneId, @locationID)";
 
@@ -192,7 +200,22 @@ internal void CreateNewAccount(User loggedOnUser)
             return plantList;
         }
 
-        internal bool TestOfUserName(User loggedOnUser)
+internal void AddPlant(Plant added)
+        {
+            var sql = @"insert into Plant (Name, LatinName, WaterFrekuenseInDays, LocationId, PlantTypeId, ScentId, SoilId, NutritionId, OriginId, PoisonId, GeneralInfo) Values (@Name, @LatinName, @WaterFrekuenseInDays, 1, 1, 1, 1, 1, 1, 1, @GeneralInfo)";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("Name", added.Name));
+                command.Parameters.Add(new SqlParameter("LatinName", added.LatinName));
+                command.Parameters.Add(new SqlParameter("WaterFrekuenseInDays", added.WaterFrekuenseInDays));
+                command.Parameters.Add(new SqlParameter("GeneralInfo", added.GeneralInfo));          
+                command.ExecuteNonQuery();
+            }
+        }
+        
+internal bool TestOfUserName(User loggedOnUser)
         {
             bool testUser = true;
             var sql = @"SELECT COUNT(*) FROM [User] WHERE UserName = @userName";

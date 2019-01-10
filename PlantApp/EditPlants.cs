@@ -11,18 +11,18 @@ namespace PlantApp
     {
         private void ShowAllPlantsOnName()
         {
-            Header("List of plants in database");
+            Header("Här är listan på alla plantor i databasen");
             List<Plant> plant = _dataAccess.GetAllPlantSorted();
             var sortedList = plant.OrderBy(x => x.Name).ToList();
-            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(5));
+            PrintGreenText("Plantans Id".PadRight(30) + "Plantans namn".PadRight(5));
             foreach (Plant bp in sortedList)
             {
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
             WriteLine("");
-            PrintGreenText("What do you want to do?");
-            WriteLine("a) Pick a plant to work with");
-            WriteLine("b) Go to main menu");
+            PrintGreenText("Vad vill du göra?");
+            WriteLine("a) Välj en planta att arbeta med");
+            WriteLine("b) Gå till huvudmenyn");
             while (true)
             {
                 ConsoleKey command = Console.ReadKey(true).Key;
@@ -46,14 +46,14 @@ namespace PlantApp
 
         private void PickAPlant(List<Plant> sortedList)
         {
-            Header("What plant do you want to work with? Pick a Id");
+            Header("Vilken planta vill du jobba med? Välj ett Id");
             foreach (Plant bp in sortedList)
             {
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
             Write("Plant to pick: ");
-            //string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant();
+            string command = Console.ReadLine();
+            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
             Header("Info on plant");
             PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
 
@@ -76,66 +76,52 @@ namespace PlantApp
 
                 if (input == ConsoleKey.A)
                 {
-                    PickAPlant(sortedList);
+                    GoogleThePlantPlease(singePlant);
                     break;
                 }
                 if (input == ConsoleKey.B)
                 {
-                    MainMenu();
+                    AddACommentToPlant(singePlant);
+                    break;
                 }
                 else
                 {
-                    Console.WriteLine("Sorry, wrong input...");
+                    Console.WriteLine("Felaktig input");
                 }
-            }
-
-            Console.ReadLine();
-            Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "https://www.google.se/search?q=" + firstElement); // Ska visa bilder på växten
-            Console.WriteLine("");
+            }         
 
         }
 
+        private void GoogleThePlantPlease(List<Plant> singePlant)
+        {
+            var firstElement = singePlant.First().Name;
+            Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "https://www.google.se/search?q=" + firstElement); // Ska visa bilder på växten
+            Console.WriteLine("");
+            MainMenu();
+        }
 
+        private void AddACommentToPlant(List<Plant> singePlant)
+        {
+            Header("Lägg till kommentar om " + singePlant[0].Name);
+            string comment = Console.ReadLine();
+            _dataAccess.AddComment(singePlant, comment);
 
+            Console.WriteLine("Test");
+            Console.ReadLine();
+        }
 
         private void WorkWithPlant(string command)
         {
-            Header("What do you want to show?");
-            WriteLine("a) Show an image of the plant");
-            WriteLine("b) Show information about the plant");
-            WriteLine("c) Add tips to other users");
-
-            while (true)
-            {
-                ConsoleKey input = Console.ReadKey(true).Key;
-
-                if (input == ConsoleKey.A)
-                {
-
-                    break;
-                }
-                if (input == ConsoleKey.B)
-                {
-                    break;
-
-                }
-                if (input == ConsoleKey.C)
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Sorry, wrong input...");
-                }
-            }
+            Console.WriteLine("Fixa detta");
+            Console.ReadLine();
 
         }
 
         private void ShowOnCategory()
         {
-            Header("Select the category you want to see");
+            Header("Välj en kategori");
             List <PlantType> category = _dataAccess.GetCategort();
-            PrintGreenText("Type ID".PadRight(30) + "Type".PadRight(5));
+            PrintGreenText("Kategori Id".PadRight(30) + "Kategori".PadRight(5));
 
             foreach (PlantType bp in category)
             {
@@ -145,8 +131,8 @@ namespace PlantApp
             int input = int.Parse(Console.ReadLine());
             List<Plant> plantCategory = _dataAccess.GetPlantByCategory(input);
             Console.Clear();
-            Header("Showing all plants in that category");
-            PrintGreenText("Plant id".PadRight(30) + "Plant Name".PadRight(5));
+            Header("Visar alla plantor i den kategorin");
+            PrintGreenText("Plantans Id".PadRight(30) + "Plantans namn".PadRight(5));
 
             foreach (Plant bp in plantCategory)
             {
@@ -159,6 +145,25 @@ namespace PlantApp
         }
         private void AddPlant()
         {
+            int waterDate;
+            Header("Lägg till planta i databsen");
+            List<Plant> addPlantList = new List<Plant>();
+
+            WriteLine("Vad är plantans namn på Svenska?");
+            string nameOnPlant = Console.ReadLine();
+            WriteLine("Vad är plantans latinska namn?");
+            string latinName = Console.ReadLine();
+            Console.WriteLine("Hur ofta ska plantan vattnas, skriv antal dagar (ex '5')");            
+            waterDate = int.Parse(Console.ReadLine());            
+            Console.WriteLine("Skriv lite info om plantan");
+            string info = Console.ReadLine();
+
+            Plant added = new Plant();
+            added.Name = nameOnPlant;
+            added.LatinName = latinName;
+            added.GeneralInfo = info;
+            added.WaterFrekuenseInDays = waterDate;
+            _dataAccess.AddPlant(added);
         }
     }
 }

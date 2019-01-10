@@ -55,7 +55,7 @@ INNER JOIN [User] ON UserPlants.UserId=[User].UserId
                 List<UserPlant> list = new List<UserPlant>();
 
                 var sql = @"
-SELECT UserPlantId, Plant.Name, Location.Location, UserPlants.WaterFrekuenseInDays, Soil.SoilType, Nutrition.NutritionType, BoughtDate, Comment, UserPlants.UserId, [User].UserName
+SELECT UserPlantId, Plant.Name, Location.Location, UserPlants.WaterFrekuenseInDays, Soil.SoilType, Nutrition.NutritionType, BoughtDate, Comment, UserPlants.UserId, [User].UserName, LastWater
 FROM UserPlants
 INNER JOIN Plant ON UserPlants.PlantId=Plant.PlantId
 INNER JOIN Location ON UserPlants.LocationId=Location.LocationId
@@ -85,6 +85,7 @@ WHERE UserPlants.UserId=@UserId
                             UserInfo = reader.GetSqlString(7).Value,
                             UserId = reader.GetSqlInt32(8).Value,
                             UserName = reader.GetSqlString(9).Value,
+                            LastWatered = reader.GetSqlDateTime(10).Value,
                         };
                         list.Add(up);
 
