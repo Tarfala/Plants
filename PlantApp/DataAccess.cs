@@ -102,12 +102,12 @@ namespace PlantApp
         //    {
         //        connection.Open();
 
-        public List<Plant> GetPlantByCategory(int input)
+public List<Plant> GetPlantByCategory(int input)
         {
             var sql = @"SELECT PlantId, Name, PlantType.PlantType
                         FROM Plant 
                         inner join PlantType on Plant.PlantTypeId=PlantType.PlantTypeId
-                        WHERE PlantId=@InputId";
+                        WHERE plant.PlantTypeId=@InputId";
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
             {

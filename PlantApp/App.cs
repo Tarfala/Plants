@@ -10,12 +10,14 @@ namespace PlantApp
         public string passWord;
         public string userName;
         public string email;
+
         DataAccess _dataAccess = new DataAccess();
         public User loggedOnUser = new User();
 
         internal void Run()
         {
             Login();
+
         }
 
         private void Login()
@@ -103,7 +105,7 @@ namespace PlantApp
                 "b) Visa användarplantor\n" +
                 "c) Sök bland tips\n" +
                 "d) Avsluta");
-           
+
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
@@ -241,7 +243,14 @@ namespace PlantApp
             Console.WriteLine(text.ToUpper());
             Console.WriteLine();
             Console.ResetColor();
-
         }
+        public void PrintGreenText(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(text.ToUpper());
+            Console.WriteLine();
+            Console.ResetColor();
+        }
+
     }
 }
