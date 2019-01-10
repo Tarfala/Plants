@@ -142,8 +142,9 @@ namespace PlantApp
             Header("HuvudMeny");
             WriteLine("a) Visa plantorna i databasen\n" +
                 "b) Visa användarplantor\n" +
-                "c) Sök bland tips\n" +
-                "d) Avsluta");
+                "c) Friordssök på plantor" +
+                "d) Sök bland tips\n" +
+                "e) Avsluta");
 
 
             ConsoleKey key = Console.ReadKey(true).Key;
@@ -152,12 +153,15 @@ namespace PlantApp
                 ShowPlantsMenu();
 
             if (key == ConsoleKey.B)
-                SeeUserPlantsMenu();
+                SearchPlants();
 
             if (key == ConsoleKey.C)
-                SearchTipsMenu();
+                SearchPlantOnWord();
 
             if (key == ConsoleKey.D)
+                SearchTipsMenu();
+
+            if (key == ConsoleKey.E)
                 Environment.Exit(0);
 
 
@@ -167,6 +171,13 @@ namespace PlantApp
                 Console.ReadKey();
                 MainMenu();
             }
+        }
+
+        private void SearchPlantOnWord()
+        {
+            Header("Sök i PlantBook");
+            WriteLine("Sök med valfritt ord i växtdatabasen");
+            Write("Sökord: ");
         }
 
         private void SearchTipsMenu()
@@ -197,7 +208,7 @@ namespace PlantApp
 
         }
 
-        private void SeeUserPlantsMenu()
+        private void SearchPlants()
         {
             Header("Användarväxter");
             WriteLine("a) Visa mina växter\n" +
