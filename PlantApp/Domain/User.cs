@@ -12,5 +12,6 @@ namespace PlantApp.Domain
         public int UserLevelId { get; set; }
         public int ZoneId { get; set; }
         public int UserLocationId { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace PlantApp.Domain
         public string Name { get; set; }
         public int PlantId { get; set; }
         public string LatinName { get; set; }
-        public string LocationId { get; set; }
+        public int LocationId { get; set; }
         public int WaterFrekuenseInDays { get; set; }
         public int PlantTypeId { get; set; }
         public int ScentId { get; set; }
@@ -17,7 +17,7 @@ namespace PlantApp.Domain
         public int NutritionId { get; set; }
         public int OriginId { get; set; }
         public int PoisonId { get; set; }
-        public int GeneralInfo { get; set; }
+        public string GeneralInfo { get; set; }
 
     }
 }
