@@ -73,7 +73,8 @@ namespace PlantApp
             WriteLine("a) Google efter plantan");
             WriteLine("b) Lägg till en kommentar");
             WriteLine("c) Uppdatera information om växt");
-            WriteLine("d) Gå till huvudmenyn");
+            WriteLine("d) Visa kommentarer");
+            WriteLine("e) Gå till huvudmenyn");
             while (true)
             {
                 ConsoleKey input = Console.ReadKey(true).Key;
@@ -93,7 +94,7 @@ namespace PlantApp
                     UpDatePlantInfo(singePlant[0].PlantId);
                     break;
                 }
-                if (input == ConsoleKey.D)
+                if (input == ConsoleKey.E)
                 {
                     MainMenu();
                 }
