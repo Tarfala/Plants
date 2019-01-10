@@ -49,7 +49,16 @@ namespace PlantApp
 
         private void PickAPlant(List<Plant> sortedList)
         {
-            throw new ArgumentException();
+            Header("Vilken planta vill du jobba med? Välj ett Id");
+            foreach (Plant bp in sortedList)
+            {
+                WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
+            }
+            Write("Plantan som ska väljas: ");
+            string command = Console.ReadLine();
+            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            Header("Info om plantan");
+            PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
             //Header("Vilken planta vill du jobba med? Välj ett Id");
             //foreach (Plant bp in sortedList)
@@ -62,39 +71,113 @@ namespace PlantApp
             //Header("Info om plantan");
             //PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
-            //foreach (Plant bp in singePlant)
-            //{
-            //    Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
-            //}
-            //Console.WriteLine("");
-
             
-            //var firstElement = singePlant.First().Name;
-            //Console.WriteLine(firstElement);
-            //Header("Vad vill du göra med" + firstElement + "en?");
-            //WriteLine("a) Google efter plantan");
-            //WriteLine("b) Lägg till en kommentar");
-            //WriteLine("c) Gå till huvudmenyn");
-            //while (true)
-            //{
-            //    ConsoleKey input = Console.ReadKey(true).Key;
+            var firstElement = singePlant.First().Name;
+            Console.WriteLine(firstElement);
+            Header("Vad vill du göra med" + firstElement + "en?");
+            WriteLine("a) Google efter plantan");
+            WriteLine("b) Lägg till en kommentar");
+            WriteLine("c) Gå till huvudmenyn");
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
 
-            //    if (input == ConsoleKey.A)
-            //    {
-            //        GoogleThePlantPlease(singePlant);
-            //        break;
-            //    }
-            //    if (input == ConsoleKey.B)
-            //    {
-            //        AddACommentToPlant(singePlant);
-            //        break;
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("Sorry, wrong input...");
-            //    }
-            //}         
+                if (input == ConsoleKey.A)
+                {
+                    GoogleThePlantPlease(singePlant);
+                    break;
+                }
+                if (input == ConsoleKey.B)
+                {
+                    AddACommentToPlant(singePlant);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, wrong input...");
+                }
+            }         
 
+        private void UpdatePlantName(int plantId)
+        {
+            List<Plant> singlePlant = _dataAccess.GetSinglePlant(plantId);
+            WriteLine($"Nuvarande namn på växten är {singlePlant[0].Name}.");
+            Write("Vad vill du ändra till: ");
+            string newName = Console.ReadLine();
+            _dataAccess.UpdateName(newName, singlePlant[0].PlantId);
+            List<Plant> updatedSinglePlant = _dataAccess.GetSinglePlant(plantId);
+
+            Header("Info on plant");
+            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+
+            foreach (Plant bp in updatedSinglePlant)
+            {
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+            }
+            Console.WriteLine("");
+
+
+            var firstElement = updatedSinglePlant.First().Name;
+            
+            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
+            WriteLine("a) Google efter plantan");
+            WriteLine("b) Lägg till en kommentar");
+            WriteLine("c) Uppdatera information om växt");
+            WriteLine("d) Gå till huvudmenyn");
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+
+                if (input == ConsoleKey.A)
+                {
+                    GoogleThePlantPlease(updatedSinglePlant);
+                    break;
+                }
+                if (input == ConsoleKey.B)
+                {
+                    AddACommentToPlant(updatedSinglePlant);
+                    break;
+                }
+                if (input == ConsoleKey.C)
+                {
+                    UpDatePlantInfo(updatedSinglePlant[0].PlantId);
+                    break;
+                }
+                if (input == ConsoleKey.D)
+                {
+                    MainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Felaktig input");
+                }
+            }         
+
+        }
+
+        private void ShowComment(List<Plant> singePlant)
+        {
+            Header("Visar kommentarer för: " + singePlant[0].Name);
+
+            Plant onlyOne = new Plant();
+            onlyOne.Name = singePlant[0].Name;
+            onlyOne.PlantId = singePlant[0].PlantId;
+            onlyOne.LatinName = singePlant[0].LatinName;
+            onlyOne.LocationId = singePlant[0].LocationId;
+            onlyOne.WaterFrekuenseInDays = singePlant[0].WaterFrekuenseInDays;
+            onlyOne.PlantTypeId = singePlant[0].PlantTypeId;
+            onlyOne.ScentId = singePlant[0].ScentId;
+            onlyOne.NutritionId = singePlant[0].NutritionId;
+            onlyOne.OriginId = singePlant[0].OriginId;
+            onlyOne.PoisonId = singePlant[0].PoisonId;
+            onlyOne.GeneralInfo = singePlant[0].GeneralInfo;
+            List<PlantComment> plantcomment = _dataAccess.ShowComment(onlyOne);
+            PrintGreenText("Kommentar".PadRight(30) + "Användare");
+            foreach (PlantComment item in plantcomment)
+            {
+                Console.WriteLine(item.CommentFromUser.PadRight(30) + item.UserComment);
+            }
+            Console.ReadLine();
         }
 
         private void GoogleThePlantPlease(List<Plant> singePlant)
@@ -105,9 +188,26 @@ namespace PlantApp
             MainMenu();
         }
 
-        private void AddACommentToPlant(List<Plant> sortedList)
+        private void AddACommentToPlant(List<Plant> singePlant)
         {
-                        
+            Header("Lägg till kommentar om " + singePlant[0].Name);
+            string comment = Console.ReadLine();
+            Plant onlyOne = new Plant();
+            onlyOne.Name = singePlant[0].Name;
+            onlyOne.PlantId = singePlant[0].PlantId;
+            onlyOne.LatinName = singePlant[0].LatinName;
+            onlyOne.LocationId = singePlant[0].LocationId;
+            onlyOne.WaterFrekuenseInDays = singePlant[0].WaterFrekuenseInDays;
+            onlyOne.PlantTypeId = singePlant[0].PlantTypeId;
+            onlyOne.ScentId = singePlant[0].ScentId;
+            onlyOne.NutritionId = singePlant[0].NutritionId;
+            onlyOne.OriginId = singePlant[0].OriginId;
+            onlyOne.PoisonId = singePlant[0].PoisonId;
+            onlyOne.GeneralInfo = singePlant[0].GeneralInfo;
+
+            _dataAccess.AddComment(onlyOne, comment, loggedOnUser);
+
+            Console.ReadLine();
         }
 
         private void WorkWithPlant(string command)
