@@ -56,7 +56,7 @@ namespace PlantApp
             }
             Write("Plantan som ska väljas: ");
             string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            List<Plant> singePlant = _dataAccess.GetSinglePlant();
             Header("Info on plant");
             PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
 
@@ -66,7 +66,7 @@ namespace PlantApp
             }
             Console.WriteLine("");
 
-            
+
             var firstElement = singePlant.First().Name;
             //Console.WriteLine(firstElement);
             PrintGreenText("Vad vill du göra med " + firstElement + "en?");
@@ -97,12 +97,14 @@ namespace PlantApp
                 {
                     MainMenu();
                 }
-if (input == ConsoleKey.D)
+                if (input == ConsoleKey.D)
                 {
                     ShowComment(singePlant);
                     break;
                 }
- private void UpDatePlantInfo(int plantId)
+            }
+        }
+        private void UpDatePlantInfo(int plantId)
         {
             Header("Uppdatera plantans information");
             WriteLine("a) Namn");
@@ -214,7 +216,7 @@ if (input == ConsoleKey.D)
 
         }
 
-	private void ShowComment(List<Plant> singePlant)
+        private void ShowComment(List<Plant> singePlant)
         {
             Header("Visar kommentarer för: " + singePlant[0].Name);
 
@@ -237,6 +239,8 @@ if (input == ConsoleKey.D)
                 Console.WriteLine(item.CommentFromUser.PadRight(30) + item.UserComment);
             }
             Console.ReadLine();
+        }
+
         private void GoogleThePlantPlease(List<Plant> singePlant)
         {
             var firstElement = singePlant.First().Name;
@@ -245,7 +249,7 @@ if (input == ConsoleKey.D)
             MainMenu();
         }
 
-        private void AddACommentToPlant(List<Plant> sortedList)
+        private void AddACommentToPlant(List<Plant> singePlant)
         {
             Header("Lägg till kommentar om " + singePlant[0].Name);
             string comment = Console.ReadLine();
