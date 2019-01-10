@@ -20,7 +20,6 @@ namespace PlantApp
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
             WriteLine("");
-            // Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "http://www.google.com"); // Ska visa bilder på växten
             PrintGreenText("What do you want to do?");
             WriteLine("a) Pick a plant to work with");
             WriteLine("b) Go to main menu");
@@ -55,7 +54,7 @@ namespace PlantApp
             {
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
-            WriteLine("");
+            Write("Plant to pick: ");
             string command = Console.ReadLine();
             List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
             Header("Info on plant");
@@ -65,8 +64,37 @@ namespace PlantApp
             {
                 Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
             }
-           
+            Console.WriteLine("");
+
+            
+            var firstElement = singePlant.First().Name;
+            Console.WriteLine(firstElement);
+            Header("Vad vill du göra med" + firstElement + "en?");
+            WriteLine("a) Google efter plantan");
+            WriteLine("b) Lägg till en kommentar");
+            WriteLine("c) Gå till huvudmenyn");
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+
+                if (input == ConsoleKey.A)
+                {
+                    PickAPlant(sortedList);
+                    break;
+                }
+                if (input == ConsoleKey.B)
+                {
+                    MainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, wrong input...");
+                }
+            }
+
             Console.ReadLine();
+            Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "https://www.google.se/search?q=" + firstElement); // Ska visa bilder på växten
+            Console.WriteLine("");
 
         }
 
