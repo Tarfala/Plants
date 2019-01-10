@@ -49,49 +49,51 @@ namespace PlantApp
 
         private void PickAPlant(List<Plant> sortedList)
         {
-            Header("Vilken planta vill du jobba med? Välj ett Id");
-            foreach (Plant bp in sortedList)
-            {
-                WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
-            }
-            Write("Plantan som ska väljas: ");
-            string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
-            Header("Info om plantan");
-            PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
+            throw new ArgumentException();
 
-            foreach (Plant bp in singePlant)
-            {
-                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
-            }
-            Console.WriteLine("");
+            //Header("Vilken planta vill du jobba med? Välj ett Id");
+            //foreach (Plant bp in sortedList)
+            //{
+            //    WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
+            //}
+            //Write("Plantan som ska väljas: ");
+            //string command = Console.ReadLine();
+            //List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            //Header("Info om plantan");
+            //PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
+
+            //foreach (Plant bp in singePlant)
+            //{
+            //    Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+            //}
+            //Console.WriteLine("");
 
             
-            var firstElement = singePlant.First().Name;
-            Console.WriteLine(firstElement);
-            Header("Vad vill du göra med" + firstElement + "en?");
-            WriteLine("a) Google efter plantan");
-            WriteLine("b) Lägg till en kommentar");
-            WriteLine("c) Gå till huvudmenyn");
-            while (true)
-            {
-                ConsoleKey input = Console.ReadKey(true).Key;
+            //var firstElement = singePlant.First().Name;
+            //Console.WriteLine(firstElement);
+            //Header("Vad vill du göra med" + firstElement + "en?");
+            //WriteLine("a) Google efter plantan");
+            //WriteLine("b) Lägg till en kommentar");
+            //WriteLine("c) Gå till huvudmenyn");
+            //while (true)
+            //{
+            //    ConsoleKey input = Console.ReadKey(true).Key;
 
-                if (input == ConsoleKey.A)
-                {
-                    GoogleThePlantPlease(singePlant);
-                    break;
-                }
-                if (input == ConsoleKey.B)
-                {
-                    AddACommentToPlant(singePlant);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Sorry, wrong input...");
-                }
-            }         
+            //    if (input == ConsoleKey.A)
+            //    {
+            //        GoogleThePlantPlease(singePlant);
+            //        break;
+            //    }
+            //    if (input == ConsoleKey.B)
+            //    {
+            //        AddACommentToPlant(singePlant);
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Sorry, wrong input...");
+            //    }
+            //}         
 
         }
 
