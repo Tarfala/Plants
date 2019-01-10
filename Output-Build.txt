@@ -1,5 +1,1 @@
-﻿1>------ Build started: Project: PlantApp, Configuration: Debug Any CPU ------
-1>App.cs(12,23,12,28): warning CS0649: Field 'App.email' is never assigned to, and will always have its default value null
-1>PlantApp -> C:\Project\AcceleratedLearning\ADO.Net\PlantsProject\PlantApp\bin\Debug\netcoreapp2.1\PlantApp.dll
-1>Done building project "PlantApp.csproj".
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+﻿
