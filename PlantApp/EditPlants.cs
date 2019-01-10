@@ -53,7 +53,7 @@ namespace PlantApp
             }
             Write("Plant to pick: ");
             string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            List<Plant> singePlant = _dataAccess.GetSinglePlant();
             Header("Info on plant");
             PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
 
@@ -69,7 +69,8 @@ namespace PlantApp
             PrintGreenText("Vad vill du göra med " + firstElement + "en?");
             WriteLine("a) Google efter plantan");
             WriteLine("b) Lägg till en kommentar");
-            WriteLine("c) Gå till huvudmenyn");
+            WriteLine("c) Uppdatera information om växt");
+            WriteLine("d) Gå till huvudmenyn");
             while (true)
             {
                 ConsoleKey input = Console.ReadKey(true).Key;
@@ -84,11 +85,133 @@ namespace PlantApp
                     AddACommentToPlant(singePlant);
                     break;
                 }
+                if (input == ConsoleKey.C)
+                {
+                    UpDatePlantInfo(singePlant[0].PlantId);
+                    break;
+                }
+                if (input == ConsoleKey.D)
+                {
+                    MainMenu();
+                }
                 else
                 {
                     Console.WriteLine("Felaktig input");
                 }
             }         
+
+        }
+
+        private void UpDatePlantInfo(int plantId)
+        {
+            Header("Uppdatera plantans information");
+            WriteLine("a) Namn");
+            WriteLine("b) Latinska namnet");
+            WriteLine("c) Växttyp");
+            WriteLine("d) Vattningsfrekvens");
+            WriteLine("e) Doft");
+            WriteLine("f) Rekommenderade placeringar");
+            WriteLine("g) Jordtyp");
+            WriteLine("h) Näring");
+            WriteLine("i) Giftighet");
+            WriteLine("j) Generel informstion");
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.A)
+                UpdatePlantName(plantId);
+
+            //if (key == ConsoleKey.B)
+            //    UpdateLatinName();
+
+            //if (key == ConsoleKey.C)
+            //    UpdatePlantType();
+
+            //if (key == ConsoleKey.D)
+            //    UpdateWaterFrequency();
+
+            //if (key == ConsoleKey.E)
+            //    UpdatePlantSent();
+
+            //if (key == ConsoleKey.F)
+            //    UpdatePlantLocation();
+
+            //if (key == ConsoleKey.G)
+            //    UpdatePlantSoil();
+
+            //if (key == ConsoleKey.H)
+            //    UpdatePlantNutrition();
+
+            //if (key == ConsoleKey.I)
+            //    UpdatePlantPoison();
+
+            //if (key == ConsoleKey.J)
+            //    UpdatePlantGeneralInfo();
+
+            else
+            {
+                WriteLine("Nu blev det fel!");
+                Console.ReadKey();
+                //MainMenu();
+            }
+
+        }
+
+        private void UpdatePlantName(int plantId)
+        {
+            List<Plant> singlePlant = _dataAccess.GetSinglePlant(plantId);
+            WriteLine($"Nuvarande namn på växten är {singlePlant[0].Name}.");
+            Write("Vad vill du ändra till: ");
+            string newName = Console.ReadLine();
+            _dataAccess.UpdateName(newName, singlePlant[0].PlantId);
+            List<Plant> updatedSinglePlant = _dataAccess.GetSinglePlant(plantId);
+
+            Header("Info on plant");
+            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+
+            foreach (Plant bp in updatedSinglePlant)
+            {
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+            }
+            Console.WriteLine("");
+
+
+            var firstElement = updatedSinglePlant.First().Name;
+            
+            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
+            WriteLine("a) Google efter plantan");
+            WriteLine("b) Lägg till en kommentar");
+            WriteLine("c) Uppdatera information om växt");
+            WriteLine("d) Gå till huvudmenyn");
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+
+                if (input == ConsoleKey.A)
+                {
+                    GoogleThePlantPlease(updatedSinglePlant);
+                    break;
+                }
+                if (input == ConsoleKey.B)
+                {
+                    AddACommentToPlant(updatedSinglePlant);
+                    break;
+                }
+                if (input == ConsoleKey.C)
+                {
+                    UpDatePlantInfo(updatedSinglePlant[0].PlantId);
+                    break;
+                }
+                if (input == ConsoleKey.D)
+                {
+                    MainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Felaktig input");
+                }
+            }
+
 
         }
 

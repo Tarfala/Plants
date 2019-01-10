@@ -156,7 +156,52 @@ namespace PlantApp
             return types;
         }
 
-       
+        internal void UpdateName(string newName, int plantId)
+        {
+            var sql = @"UPDATE Plant SET Name = @newName WHERE PlantId = @plantId";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using(SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("newName", newName));
+                command.Parameters.Add(new SqlParameter("plantId", plantId));
+                command.ExecuteNonQuery();
+            }
+        }
+
+        internal List<Plant> GetSinglePlant(int plantId)
+        {
+            var sql = @"SELECT * FROM Plant where PlantId=@input";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command2 = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command2.Parameters.Add(new SqlParameter("input", plantId));
+                SqlDataReader reader = command2.ExecuteReader();
+                var list = new List<Plant>();
+                while (reader.Read())
+                {
+                    var bp = new Plant
+                    {
+                        Name = reader.GetSqlString(0).Value.ToString(),
+                        PlantId = reader.GetSqlInt32(1).Value,
+                        LatinName = reader.GetSqlString(2).Value,
+                        LocationId = reader.GetSqlInt32(3).Value,
+                        WaterFrekuenseInDays = reader.GetSqlInt32(4).Value,
+                        PlantTypeId = reader.GetSqlInt32(5).Value,
+                        ScentId = reader.GetSqlInt32(6).Value,
+                        SoilId = reader.GetSqlInt32(7).Value,
+                        NutritionId = reader.GetSqlInt32(8).Value,
+                        OriginId = reader.GetSqlInt32(9).Value,
+                        PoisonId = reader.GetSqlInt32(10).Value,
+                        GeneralInfo = reader.GetSqlString(11).Value
+                    };
+                    list.Add(bp);
+                }
+                return list;
+            }
+        }
 
         internal void CreateNewAccount(User loggedOnUser)
         {

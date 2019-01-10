@@ -209,12 +209,13 @@ namespace PlantApp
 
                 if (input == ConsoleKey.A)
                 {
-                    //Google ska läggas in efter pushning.
+                    GoogleThePlantPlease(singelPlant);
                     break;
                 }
                 if (input == ConsoleKey.B)
                 {
-                    //Kommentar läggs in efter pushning.
+                    AddACommentToPlant(singelPlant);
+                    break;
                 }
                 if (input == ConsoleKey.C)
                 {
