@@ -11,19 +11,19 @@ namespace PlantApp
 
         public void EditUser(User x)
         {
-            User userEdit = x;
+            
 
-            var sql = @"UPDATE User 
-                    SET PassWord=@PassWord, Email=@Email, LastWater=@LastWater 
-                    WHERE userEdit=@userEdit";
+            var sql = @"UPDATE [User]
+                    SET PassWord=@PassWord, Email=@Email 
+                    WHERE userId=@userId";
 
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 connection.Open();
-                command.Parameters.Add(new SqlParameter("PassWord", userEdit.PassWord));
-                command.Parameters.Add(new SqlParameter("Email", userEdit.Email));
-                command.Parameters.Add(new SqlParameter("userId", userEdit.UserId));
+                command.Parameters.Add(new SqlParameter("PassWord", x.PassWord));
+                command.Parameters.Add(new SqlParameter("Email", x.Email));
+                command.Parameters.Add(new SqlParameter("userId", x.UserId));
 
                 command.ExecuteNonQuery();
 
