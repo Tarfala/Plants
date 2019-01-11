@@ -56,7 +56,7 @@ namespace PlantApp
             }
             Write("Plantan som ska väljas: ");
             string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            List<Plant> singePlant = _dataAccess.GetSinglePlant();
             Header("Info om plantan");
             PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
@@ -71,7 +71,7 @@ namespace PlantApp
             //Header("Info om plantan");
             //PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
-            
+
             var firstElement = singePlant.First().Name;
             Console.WriteLine(firstElement);
             Header("Vad vill du göra med" + firstElement + "en?");
@@ -96,7 +96,8 @@ namespace PlantApp
                 {
                     Console.WriteLine("Sorry, wrong input...");
                 }
-            }         
+            }
+        }
 
         private void UpdatePlantName(int plantId)
         {
@@ -140,7 +141,7 @@ namespace PlantApp
                 }
                 if (input == ConsoleKey.C)
                 {
-                    UpDatePlantInfo(updatedSinglePlant[0].PlantId);
+                 //   UpDatePlantInfo(updatedSinglePlant[0].PlantId);
                     break;
                 }
                 if (input == ConsoleKey.D)

@@ -11,9 +11,50 @@ namespace PlantApp
        private void ShowUserInformation()
         {
             Header("Användarinformation");
-            WriteLine($"Användarnamn: {loggedOnUser.UserName}");
-            WriteLine($"Email: {loggedOnUser.Email}");
             
-        }
+            WriteLine($"\nAnvändarnamn: {loggedOnUser.UserName}");
+            WriteLine($"Email: {loggedOnUser.Email}");
+            Console.WriteLine();
+
+            WriteLine("Vill du..?\n" +
+                "a) Ändra e-mail\n" +
+                "b) Byta lösenord\n" +
+                "c) Gå tillbaka\n");
+            User editUser = loggedOnUser;
+
+
+            ConsoleKey key2 = Console.ReadKey(true).Key;
+
+            if (key2 == ConsoleKey.A)
+            {
+                WriteLine("Ange ny e-mailadress:");
+                editUser.Email = Console.ReadLine();
+                _dataAccess.EditUser(editUser);
+                Console.Clear();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
+                SeeUserPlantMenu();
+            }
+
+            if (key2 == ConsoleKey.B)
+            {
+                WriteLine("Ange nytt lösenord:");
+                editUser.PassWord = Console.ReadLine();
+                _dataAccess.EditUser(editUser);
+                Console.Clear();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
+                SeeUserPlantMenu();
+            }
+
+            if (key2 == ConsoleKey.C)
+            {
+                MainMenu();
+            }
+
+            Console.ReadKey();
+            SeeUserPlantMenu();
+            
+        } 
     }
 }

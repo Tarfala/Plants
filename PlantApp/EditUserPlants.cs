@@ -65,7 +65,8 @@ namespace PlantApp
                 UpdateUserPlant(AllUserPlants);
 
             if (key == ConsoleKey.B)
-                ShowAllUserPlants();
+                WaterPlantQuestion(AllUserPlants);
+
 
             if (key == ConsoleKey.C)
                 ShowUserInformation();
@@ -152,76 +153,70 @@ namespace PlantApp
 
             WriteLine("Vilken Planta vill du uppdatera?");
             int uppdPlant = int.Parse(Console.ReadLine());
-            UserPlant PlantToUppdate = _dataAccess.FindPlantOnId(uppdPlant);
+            UserPlant PlantToUppdate = SortOutUserPlant(list, uppdPlant);
 
-            Header("Uppdaterar" + PlantToUppdate.Name);
+            Header("Uppdaterar " + PlantToUppdate.Name);
 
             UserPlant newUserPlant = PlantToUppdate;
             WriteLine("Vad vill du uppdatera?");
-            WriteLine("a) Plancering");
+            WriteLine("a) Placering");
             WriteLine("b) Dagar mellan vattning");
             WriteLine("c) Uppdatera informationen");
             WriteLine("d) Vattna");
             WriteLine("e) Ta bort Planta");
             WriteLine("e) Tillbaka");
 
-            ConsoleKey key = Console.ReadKey(true).Key;
+            ConsoleKey key2 = Console.ReadKey(true).Key;
 
-            if (key == ConsoleKey.A)
+            if (key2 == ConsoleKey.A)
+            {
                 WriteLine("Här kan man uppdatera väderstreck sen");
-            Console.ReadKey();
-            Console.Clear();
-            WriteLine("Uppdaterat!");
-            Console.ReadKey();
-            SeeUserPlantMenu();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
+                SeeUserPlantMenu();
+            }
 
 
-
-            if (key == ConsoleKey.B)
+            if (key2 == ConsoleKey.B)
+            {
                 Console.WriteLine();
                 WriteLine("Hur många dagar vill du ha mellan vattning?");
 
-            newUserPlant.WaterFrequence = int.Parse(Console.ReadLine());
-
-            _dataAccess.UpdateUserPlant(newUserPlant);
-            Console.Clear();
-            WriteLine("Uppdaterat!");
-            Console.ReadKey();
-            SeeUserPlantMenu();
-
-            if (key == ConsoleKey.C)
-                Console.WriteLine();
-                WriteLine("Ange ny information om plantan.");
-            newUserPlant.UserInfo = Console.ReadLine();
+                newUserPlant.WaterFrequence = int.Parse(Console.ReadLine());
 
                 _dataAccess.UpdateUserPlant(newUserPlant);
-            Console.Clear();
-            WriteLine("Uppdaterat!");
-            Console.ReadKey();
-            SeeUserPlantMenu();
-
-
-            if (key == ConsoleKey.D)
-                Console.WriteLine();
-            WriteLine("Vattnar blomman...");
-            Console.ReadKey();
-            newUserPlant.LastWatered = DateTime.Now;
-
-            _dataAccess.UpdateUserPlant(newUserPlant);
-
-            Console.ReadKey();
-            SeeUserPlantMenu();
-
-
-
-            if (key == ConsoleKey.E)
-
-                DeleteUserPlant(PlantToUppdate.UserPlantId);
-
-            if (key == ConsoleKey.D)
-
+                Console.Clear();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
                 SeeUserPlantMenu();
+            }
+            if (key2 == ConsoleKey.C)
+            {
+                Console.WriteLine();
+                WriteLine("Ange ny information om plantan.");
+                newUserPlant.UserInfo = Console.ReadLine();
 
+                _dataAccess.UpdateUserPlant(newUserPlant);
+                Console.Clear();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
+                SeeUserPlantMenu();
+            }
+
+            if (key2 == ConsoleKey.D)
+            {
+                WaterPlant(newUserPlant);
+            }
+
+
+            if (key2 == ConsoleKey.E)
+            {
+                DeleteUserPlant(PlantToUppdate.UserPlantId);
+            }
+            if (key2 == ConsoleKey.D)
+            {
+                SeeUserPlantMenu();
+            }
             else
             {
                 WriteLine("Nu blev det fel!");
@@ -232,6 +227,69 @@ namespace PlantApp
             // Lication, Waterfrequence, Ta bort, kommentar/info.
 
 
+        }
+
+        private void WaterPlantQuestion(List<UserPlant> list)
+        {
+            Header("Vattna");
+            Console.WriteLine();
+            foreach (var plant in list)
+            {
+                WriteLine("Id: " + plant.UserPlantId);
+                WriteLine("Namn: " + plant.Name);
+            }
+
+            Console.WriteLine();
+            WriteLine("Vilken Planta vill du Vattna?");
+            int uppdPlant = int.Parse(Console.ReadLine());
+            UserPlant PlantToWater = SortOutUserPlant(list, uppdPlant);
+
+            Console.Clear();
+            Console.WriteLine();
+
+
+            WriteLine("Vattnar blomman...");
+            Console.ReadKey();
+            PlantToWater.LastWatered = DateTime.Now;
+
+            _dataAccess.UpdateUserPlant(PlantToWater);
+
+            Console.ReadKey();
+            SeeUserPlantMenu();
+
+
+        }
+        private void WaterPlant(UserPlant newUserPlant)
+        {
+            Console.Clear();
+            Console.WriteLine();
+            WriteLine("Vattnar blomman...");
+            Console.ReadKey();
+            newUserPlant.LastWatered = DateTime.Now;
+
+            _dataAccess.UpdateUserPlant(newUserPlant);
+
+            Console.ReadKey();
+            SeeUserPlantMenu();
+
+        }
+
+
+        private UserPlant SortOutUserPlant(List<UserPlant> list, int UserPlantId)
+        {
+            UserPlant newPlant = new UserPlant();
+            foreach (var plant in list)
+            {
+                if (plant.UserPlantId == UserPlantId)
+                {
+                    newPlant = plant;
+                }
+                else
+                {
+                    WriteLine("Nu blev det fel");
+                }
+            }
+            return newPlant;
         }
 
         private void DeleteUserPlant(int UserPlantId)

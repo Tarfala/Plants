@@ -97,7 +97,7 @@ WHERE UserPlants.UserId=@UserId
         public UserPlant FindPlantOnId(int UserPlantId)
         {
             var sql = @"
-SELECT UserPlantId, Plant.Name, Location.Location, UserPlants.WaterFrekuenseInDays, Soil.SoilType, Nutrition.NutritionType, BoughtDate, Comment, UserPlants.UserId, [User].UserName, LastWater
+SELECT Plant.Name, Location.Location, UserPlants.WaterFrekuenseInDays, Soil.SoilType, Nutrition.NutritionType, BoughtDate, Comment, UserPlants.UserId, [User].UserName, LastWater
 FROM UserPlants
 INNER JOIN Plant ON UserPlants.PlantId=Plant.PlantId
 INNER JOIN Location ON UserPlants.LocationId=Location.LocationId
@@ -114,22 +114,26 @@ WHERE UserPlants.UserPlantId=@UserPlantId
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                var up = new UserPlant
+                if (reader.Read())
                 {
-                    UserPlantId = reader.GetSqlInt32(0).Value,
-                    Name = reader.GetSqlString(1).Value,
-                    Location = reader.GetSqlString(2).Value,
-                    WaterFrequence = reader.GetSqlInt32(3).Value,
-                    Soil = reader.GetSqlString(4).Value,
-                    Nutrition = reader.GetSqlString(5).Value,
-                    Bought = reader.GetSqlDateTime(6).Value,
-                    UserInfo = reader.GetSqlString(7).Value,
-                    UserId = reader.GetSqlInt32(8).Value,
-                    UserName = reader.GetSqlString(9).Value,
-                    LastWatered = reader.GetSqlDateTime(10).Value,
-                };
-                return up;
-
+                    var up = new UserPlant
+                    {
+                        UserPlantId = reader.GetSqlInt32(0).Value,
+                        Name = reader.GetSqlString(1).Value,
+                        Location = reader.GetSqlString(2).Value,
+                        WaterFrequence = reader.GetSqlInt32(3).Value,
+                        Soil = reader.GetSqlString(4).Value,
+                        Nutrition = reader.GetSqlString(5).Value,
+                        Bought = reader.GetSqlDateTime(6).Value,
+                        UserInfo = reader.GetSqlString(7).Value,
+                        UserId = reader.GetSqlInt32(8).Value,
+                        UserName = reader.GetSqlString(9).Value,
+                        LastWatered = reader.GetSqlDateTime(10).Value,
+                    };
+                    return up;
+                }
+                else
+                    return null;
             }
         }
         public void DeleteUserPlant(int UserPlantId)

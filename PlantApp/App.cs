@@ -249,14 +249,16 @@ namespace PlantApp
                ShowAllUserPlants();
 
             if (key == ConsoleKey.C)
+            {
                 ShowUserInformation();
+            }
 
             if (key == ConsoleKey.D)
                 MainMenu();
 
             else
             {
-                WriteLine("Nu blev det fel!");
+               
                 Console.ReadKey();
                 MainMenu();
             }
