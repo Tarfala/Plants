@@ -147,7 +147,7 @@ namespace PlantApp
                     {
                         comment.CommentFromUser = reader.GetSqlString(0).Value;
                         comment.UserComment = reader.GetSqlString(1).Value;
-                    }
+                    }   
                     types.Add(comment);
                 }
             }

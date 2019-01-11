@@ -8,7 +8,6 @@ namespace PlantApp
 {
     partial class App
     {
-        // Här fixar vi med användarplantor.
 
        private void ShowAllUserPlants()
         {
@@ -19,10 +18,10 @@ namespace PlantApp
             foreach (var plant in AllUserPlants)
             {
                 WriteLine(plant.Name);
-                WriteLine("User: " + plant.UserName);
-                WriteLine("Bought Date: " + plant.Bought);
-                WriteLine("Warter Frequence: " + plant.WaterFrequence);
-                WriteLine($"Info from: {plant.UserName} \n" +
+                WriteLine("Användare: " + plant.UserName);
+                WriteLine("Inköpsdag: " + plant.Bought);
+                WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
+                WriteLine($"Info från: {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
             }
@@ -32,8 +31,6 @@ namespace PlantApp
 
        private void ShowPlantsOnUser()
         {
-            // Visar alla plantor registrerade på användare. 
-
             Header("Alla Dina Plantor");
 
             List<UserPlant> AllUserPlants = _dataAccess.ShowAllPlantsOnUser(loggedOnUser.UserId);
@@ -41,10 +38,10 @@ namespace PlantApp
             foreach (var plant in AllUserPlants)
             {
                 WriteLine(plant.Name);
-                WriteLine("User: " + plant.UserName);
-                WriteLine("Bought Date: " + plant.Bought);
-                WriteLine("Warter Frequence: " + plant.WaterFrequence);
-                WriteLine($"Info from: {plant.UserName} \n" +
+                WriteLine("Användare: " + plant.UserName);
+                WriteLine("Inköpsdag: " + plant.Bought);
+                WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
+                WriteLine($"Info från: {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
             }
@@ -58,17 +55,25 @@ namespace PlantApp
             ConsoleKey key = Console.ReadKey(true).Key;
 
             if (key == ConsoleKey.A)
+            {
                 UpdateUserPlant(AllUserPlants);
+            }
 
             if (key == ConsoleKey.B)
+            {
                 WaterPlantQuestion(AllUserPlants);
+            }
 
 
             if (key == ConsoleKey.C)
-                ShowUserInformation();
+            {
+                SeeUserPlantsMenu();
+            }
 
             if (key == ConsoleKey.D)
+            {
                 MainMenu();
+            }
 
             else
             {
@@ -210,9 +215,6 @@ namespace PlantApp
                 MainMenu();
             }
 
-            // Lication, Waterfrequence, Ta bort, kommentar/info.
-
-
         }
 
         private void WaterPlantQuestion(List<UserPlant> list)
@@ -278,6 +280,45 @@ namespace PlantApp
             return newPlant;
         }
 
+        private void AddUserPlant()
+        {
+            Header("Lägga till planta");
+            WriteLine("Vilken planta vill du lägga till (ange id?");
+
+           List<Plant> plantlist = _dataAccess.GetAllPlantSorted();
+
+            foreach (var plant in plantlist)
+            {
+                WriteLine("Id: " + plant.PlantId + " " + plant.Name);
+            }
+
+            int plantToAdd = int.Parse(Console.ReadLine());
+           List<Plant> plant1list = _dataAccess.GetSinglePlant(plantToAdd);
+
+            Plant plant1 = new Plant();
+
+            foreach (var plant in plant1list)
+            {
+                plant1 = plant;
+            }
+
+            Header($"Lägg till en {plant1.Name}");
+            WriteLine("När köpte du plantan? (Ange i format MM/dd/yyyy) ");
+            DateTime bought2 = DateTime.Parse(Console.ReadLine());
+          //  DateTime bought2 = DateTime.Parse(bought1 + " 0:00");
+            WriteLine("Lägg till en kommentar om din planta:");
+            string comment = Console.ReadLine();
+
+            _dataAccess.CreateNewUserPlant(plant1, loggedOnUser.UserId, bought2, comment);
+
+            Console.Clear();
+
+            WriteLine("Planta tillagd!");
+            Console.ReadKey();
+            SeeUserPlantsMenu();
+
+        }
+
         private void DeleteUserPlant(int UserPlantId)
         {
             Header("Ta bort planta");
@@ -288,7 +329,6 @@ namespace PlantApp
             if (yn.ToLower() == "ja")
             {
 
-                //Skapa funktionen sen.
                 _dataAccess.DeleteUserPlant(UserPlantId);
 
                 WriteLine("Plantan är borttagen!");

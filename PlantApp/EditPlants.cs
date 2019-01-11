@@ -42,8 +42,6 @@ namespace PlantApp
                 }
             }
 
-
-
             ShowPlantsMenu();
         }
 
@@ -55,56 +53,9 @@ namespace PlantApp
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
             Write("Plantan som ska väljas: ");
-            string command = Console.ReadLine();
             List<Plant> singePlant = _dataAccess.GetSinglePlant();
-            Header("Info om plantan");
-            PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
-
-
-            foreach (Plant bp in singePlant)
-            {
-                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
-            }
-            Console.WriteLine("");
-
-
-            var firstElement = singePlant.First().Name;
-            //Console.WriteLine(firstElement);
-            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
-            WriteLine("a) Google efter plantan");
-            WriteLine("b) Lägg till en kommentar");
-            WriteLine("c) Uppdatera information om växt");
-            WriteLine("d) Visa kommentarer");
-            WriteLine("e) Gå till huvudmenyn");
-            while (true)
-            {
-                ConsoleKey input = Console.ReadKey(true).Key;
-
-                if (input == ConsoleKey.A)
-                {
-                    GoogleThePlantPlease(singePlant);
-                    break;
-                }
-                if (input == ConsoleKey.B)
-                {
-                    AddACommentToPlant(singePlant);
-                    break;
-                }
-                if (input == ConsoleKey.C)
-                {
-                    UpDatePlantInfo(singePlant[0].PlantId);
-                    break;
-                }
-                if (input == ConsoleKey.E)
-                {
-                    MainMenu();
-                }
-                if (input == ConsoleKey.D)
-                {
-                    ShowComment(singePlant);
-                    break;
-                }
-            }
+            PrintSinglePlantAndMenu(singePlant);
+            
         }
         private void UpDatePlantInfo(int plantId)
         {
@@ -201,19 +152,31 @@ namespace PlantApp
             onlyOne.PoisonId = singePlant[0].PoisonId;
             onlyOne.GeneralInfo = singePlant[0].GeneralInfo;
             List<PlantComment> plantcomment = _dataAccess.ShowComment(onlyOne);
-            PrintGreenText("Kommentar".PadRight(30) + "Användare");
+            PrintGreenText("Kommentar".PadRight(100) + "Användare".PadRight(100));
             foreach (PlantComment item in plantcomment)
             {
-                Console.WriteLine(item.CommentFromUser.PadRight(30) + item.UserComment);
+                Console.WriteLine(item.CommentFromUser.PadRight(100) + item.UserComment.PadRight(100));
             }
-            Console.ReadLine();
+            Console.WriteLine("Tryck på enter för att komma till huvudmenyn");
+            Console.ReadKey();
         }
 
         private void GoogleThePlantPlease(List<Plant> singePlant)
         {
             var firstElement = singePlant.First().Name;
-            Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "https://www.google.se/search?q=" + firstElement); // Ska visa bilder på växten
-            Console.WriteLine("");
+            try
+            {
+                Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "https://www.google.se/search?q=" + firstElement); // Ska visa bilder på växten
+                Console.WriteLine("");               
+            }
+
+            catch (Exception)
+            {
+                Console.WriteLine("Tyvärr funkar detta endast i Chrome");
+                Console.WriteLine("");
+            }
+            Console.WriteLine("Klicka enter för att komma till förstasidan");
+            Console.ReadKey();
             MainMenu();
         }
 
@@ -235,8 +198,9 @@ namespace PlantApp
             onlyOne.GeneralInfo = singePlant[0].GeneralInfo;
 
             _dataAccess.AddComment(onlyOne, comment, loggedOnUser);
-
-            Console.ReadLine();
+            Console.WriteLine("Tack för ditt bidrag, tryck på enter för att komma till huvudmenyn");
+            Console.ReadKey();
+            MainMenu();
         }
 
         private void WorkWithPlant(string command)
@@ -293,6 +257,7 @@ namespace PlantApp
             added.GeneralInfo = info;
             added.WaterFrekuenseInDays = waterDate;
             _dataAccess.AddPlant(added);
+            MainMenu();
         }
     }
 }
