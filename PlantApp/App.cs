@@ -72,7 +72,6 @@ namespace PlantApp
                         passWord += key.KeyChar;
                         Console.Write("*");
                     }
-                    //passWord = Console.ReadLine();
                     WriteLine("");
                     Write("Ange en e-post: ");
                     email = Console.ReadLine(); // lägg till validering av e-post.
@@ -335,11 +334,12 @@ namespace PlantApp
             var firstElement = singlePlant.First().Name;
 
             PrintGreenText("Vad vill du göra med " + firstElement + "en?");
-            WriteLine("a) Google efter plantan");
+            WriteLine("a) Google efter växten");
             WriteLine("b) Lägg till en kommentar");
             WriteLine("c) Uppdatera information om växt");
-            WriteLine("d) Visa kommentarer");
-            WriteLine("e) Gå till huvudmenyn");
+            WriteLine("d) Ta bort växt");
+            WriteLine("e) Visa kommentarer");
+            WriteLine("f) Gå till huvudmenyn");
             while (true)
             {
                 ConsoleKey input = Console.ReadKey(true).Key;
@@ -359,17 +359,41 @@ namespace PlantApp
                     UpDatePlantInfo(singlePlant[0].PlantId);
                     break;
                 }
-                if (input == ConsoleKey.E)
-                {
-                    MainMenu();
-                }
+
                 if (input == ConsoleKey.D)
+                {
+                    DeletePlant(singlePlant);
+                    break;
+                }
+                if (input == ConsoleKey.E)
                 {
                     ShowComment(singlePlant);
                     break;
                 }
+                if (input == ConsoleKey.F)
+                {
+                    MainMenu();
+                }
             }
         }
 
+        private void DeletePlant(List<Plant> singlePlant)
+        {
+            List<Plant> plant = _dataAccess.GetAllPlantSorted();
+            var sortedList = plant.OrderBy(x => x.Name).ToList();
+            Header("Ta bort växt");
+            PrintGreenText("Plantans Id".PadRight(30) + "Plantans namn".PadRight(5));
+            foreach (Plant bp in sortedList)
+            {
+                WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
+            }
+            WriteLine("");
+            Write("Ange växt som ska tas bort: ");
+            bool existPlant = int.TryParse(Console.ReadLine(), out int plantId);
+            _dataAccess.DeletePlantInTable(plantId);
+            Header("PlantBook");
+            WriteLine($"Växt är bortagen.");
+            Console.ReadKey();
+        }
     }
 }

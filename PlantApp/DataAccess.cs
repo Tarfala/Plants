@@ -8,7 +8,8 @@ namespace PlantApp
 {
     partial class DataAccess
     {
-        private const string conString = "Server=(localdb)\\mssqllocaldb; Database=Plants";
+        //private const string conString = "Server=(localdb)\\mssqllocaldb; Database=Plants";
+        private const string conString = "Server=tcp:academygbg.database.windows.net,1433;Initial Catalog=PlantBook;Persist Security Info=False;User ID=Tobias;Password=Password1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
         public List<Plant> GetAllPlantSorted()
         {
@@ -408,6 +409,22 @@ namespace PlantApp
                     list.Add(bp);
                 }
                 return list;
+            }
+        }
+
+        internal void DeletePlantInTable(int plantId)
+        {
+            var sql = @"DELETE FROM PlantToLocation WHERE PlantId = @plantId
+                        DELETE FROM Comment WHERE PlantId = @plantId
+                        DELETE FROM UserPlants WHERE PlantId = @plantId
+                        DELETE FROM Plant WHERE PlantId = @plantId";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("plantId", plantId));
+                command.ExecuteNonQuery();
             }
         }
     }

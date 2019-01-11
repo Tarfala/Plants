@@ -82,8 +82,8 @@ namespace PlantApp
             //if (key == ConsoleKey.C)
             //    UpdatePlantType();
 
-            //if (key == ConsoleKey.D)
-            //    UpdateWaterFrequency();
+            if (key == ConsoleKey.D)
+                UpdatePlantName(plantId, "vattningsfrekvens", "WaterFrekuenseInDays");
 
             //if (key == ConsoleKey.E)
             //    UpdatePlantSent();
@@ -111,18 +111,6 @@ namespace PlantApp
             }
 
         }
-
-        //private void UpdateLatinName(int plantId)
-        //{
-        //    List<Plant> singlePlant = _dataAccess.GetSinglePlant(plantId);
-        //    WriteLine($"Nuvarande latinska namn på växten är {singlePlant[0].LatinName}.");
-        //    Write("Vad vill du ändra till: ");
-        //    string newName = Console.ReadLine();
-        //    string columnName = "LatinName";
-        //    _dataAccess.UpdateName(newName, columnName, singlePlant[0].PlantId);
-        //    List<Plant> updatedSinglePlant = _dataAccess.GetSinglePlant(plantId);
-        //    PrintSinglePlantAndMenu(updatedSinglePlant);
-        //}
 
         private void UpdatePlantName(int plantId, string name, string columnName)
         {

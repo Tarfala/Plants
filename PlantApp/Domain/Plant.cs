@@ -27,6 +27,8 @@ namespace PlantApp.Domain
                 return Name;
             if (columnName == "GeneralInfo")
                 return GeneralInfo;
+            if (columnName == "WaterFrekuenseInDays")
+                return WaterFrekuenseInDays.ToString();
             throw new Exception();
         }
     }
