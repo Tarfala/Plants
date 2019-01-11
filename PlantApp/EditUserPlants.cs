@@ -20,7 +20,7 @@ namespace PlantApp
                 WriteLine(plant.Name);
                 WriteLine("Användare: " + plant.UserName);
                 WriteLine("Inköpsdag: " + plant.Bought);
-                WriteLine($"Info från {plant.UserName} \n" +
+                WriteLine($"Info från {plant.UserName}: " +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
             }
@@ -43,7 +43,7 @@ namespace PlantApp
                 WriteLine("Inköpsdag: " + plant.Bought);
                 WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
                 WriteLine(daysTilWater);
-                WriteLine($"\nInfo från {plant.UserName} \n" +
+                WriteLine($"Info från {plant.UserName}: " +
                     $"{plant.UserInfo}\n");
             }
 
@@ -237,8 +237,9 @@ namespace PlantApp
             Console.Clear();
             Console.WriteLine();
 
-
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
             WriteLine("Vattnar blomman...");
+            Console.ResetColor();
             Console.ReadKey();
             PlantToWater.LastWatered = DateTime.Now;
 
