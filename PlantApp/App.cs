@@ -246,28 +246,38 @@ namespace PlantApp
             WriteLine("a) Visa mina växter\n" +
                 "b) Se andras växter\n" +
                 "c) Användaruppgifter\n" +
-                "d) Gå tillbaka");
+                "d) Lägg till planta" +
+                "e) Gå tillbaka");
 
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
             if (key == ConsoleKey.A)
+            {
                 ShowPlantsOnUser();
-
+            }
             if (key == ConsoleKey.B)
-               ShowAllUserPlants();
-
+            {
+                ShowAllUserPlants();
+            }
             if (key == ConsoleKey.C)
             {
                 ShowUserInformation();
             }
 
             if (key == ConsoleKey.D)
+            {
+                AddUserPlant();
+            }
+
+            if (key == ConsoleKey.E)
+            {
                 MainMenu();
+            }
 
             else
             {
-               
+
                 Console.ReadKey();
                 MainMenu();
             }
@@ -286,16 +296,24 @@ namespace PlantApp
             ConsoleKey key = Console.ReadKey(true).Key;
 
             if (key == ConsoleKey.A)
+            {
                 ShowAllPlantsOnName();
+            }
 
             if (key == ConsoleKey.B)
+            {
                 ShowOnCategory();
+            }
 
             if (key == ConsoleKey.C)
+            {
                 AddPlant();
+            }
 
             if (key == ConsoleKey.D)
+            {
                 MainMenu();
+            }
 
             else
             {

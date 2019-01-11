@@ -138,6 +138,15 @@ WHERE UserPlants.UserPlantId=@UserPlantId
         }
         public void DeleteUserPlant(int UserPlantId)
         {
+            var sql = @"DELETE FROM UserPlants WHERE UserPlantId=@UserPlantId";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("UserPlantId", UserPlantId));
+                command.ExecuteNonQuery();
+            }
 
         }
 
@@ -160,6 +169,34 @@ WHERE UserPlants.UserPlantId=@UserPlantId
                 command.ExecuteNonQuery();
 
             }
+        }
+
+        public void CreateNewUserPlant(Plant plant1, int UserId, DateTime bought, string comment)
+        {
+            
+            var sql = @"INSERT INTO UserPlants(PlantId, LocationId, WaterFrekuenseInDays, SoildId, NutritionId, BoughtDate, Comment, UserId, LastWater) 
+                        VALUES(@PlantId, @LocationId, @WaterFrekuenseInDays, @SoildId, @NutritionId, @BoughtDate, @Comment, @UserId, @LastWater)";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("PlantId", plant1.PlantId));
+                command.Parameters.Add(new SqlParameter("LocationId", plant1.LocationId));
+                command.Parameters.Add(new SqlParameter("WaterFrekuenseInDays", plant1.WaterFrekuenseInDays));
+                command.Parameters.Add(new SqlParameter("SoildId", plant1.SoilId));
+                command.Parameters.Add(new SqlParameter("NutritionId", plant1.NutritionId));
+                command.Parameters.Add(new SqlParameter("BoughtDate", bought));
+                command.Parameters.Add(new SqlParameter("Comment", comment));
+                command.Parameters.Add(new SqlParameter("UserId", UserId));
+                command.Parameters.Add(new SqlParameter("LastWater", DateTime.Now));
+
+
+                command.ExecuteNonQuery();
+
+            }
+
+
         }
     }
 }
