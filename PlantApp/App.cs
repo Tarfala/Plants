@@ -212,7 +212,7 @@ namespace PlantApp
             WriteLine("a) Visa mina växter\n" +
                 "b) Se andras växter\n" +
                 "c) Användaruppgifter\n" +
-                "d) Lägg till planta" +
+                "d) Lägg till planta\n" +
                 "e) Gå tillbaka");
 
 

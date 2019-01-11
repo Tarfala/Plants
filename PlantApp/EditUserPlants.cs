@@ -20,8 +20,7 @@ namespace PlantApp
                 WriteLine(plant.Name);
                 WriteLine("Användare: " + plant.UserName);
                 WriteLine("Inköpsdag: " + plant.Bought);
-                WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
-                WriteLine($"Info från: {plant.UserName} \n" +
+                WriteLine($"Info från {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
             }
@@ -37,13 +36,15 @@ namespace PlantApp
 
             foreach (var plant in AllUserPlants)
             {
+                TimeSpan t = CalculateWaterDay(plant.LastWatered, plant.WaterFrequence);
+                string daysTilWater = DisplayDaysTilWater(t);
                 WriteLine(plant.Name);
                 WriteLine("Användare: " + plant.UserName);
                 WriteLine("Inköpsdag: " + plant.Bought);
                 WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
-                WriteLine($"Info från: {plant.UserName} \n" +
-                    $"{plant.UserInfo}");
-                Console.WriteLine();
+                WriteLine(daysTilWater);
+                WriteLine($"\nInfo från {plant.UserName} \n" +
+                    $"{plant.UserInfo}\n");
             }
 
             WriteLine("");
@@ -126,9 +127,10 @@ namespace PlantApp
                 return countDown;
             }
 
+
             else
             {
-                countDown = "";
+                countDown = "Den har vattnats idag :)";
                 return countDown;
             }
         }
