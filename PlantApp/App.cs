@@ -17,6 +17,7 @@ namespace PlantApp
 
         internal void Run()
         {
+            Console.Title = "PlantBook";
             Login();
             string user1 = loggedOnUser.UserName;
 

@@ -198,9 +198,9 @@ namespace PlantApp
             return types;
         }
 
-        internal void UpdateName(string newName, int plantId)
+        internal void UpdateName(string newName, string columnName, int plantId)
         {
-            var sql = @"UPDATE Plant SET Name = @newName WHERE PlantId = @plantId";
+            var sql = $@"UPDATE Plant SET {columnName} = @newName WHERE PlantId = @plantId";
 
             using (SqlConnection connection = new SqlConnection(conString))
             using(SqlCommand command = new SqlCommand(sql, connection))

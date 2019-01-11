@@ -123,10 +123,10 @@ namespace PlantApp
             ConsoleKey key = Console.ReadKey(true).Key;
 
             if (key == ConsoleKey.A)
-                UpdatePlantName(plantId);
+                UpdatePlantName(plantId, "namn", "Name");
 
-            //if (key == ConsoleKey.B)
-            //    UpdateLatinName();
+            if (key == ConsoleKey.B)
+                    UpdatePlantName(plantId, "latinska namn", "LatinName");
 
             //if (key == ConsoleKey.C)
             //    UpdatePlantType();
@@ -149,8 +149,8 @@ namespace PlantApp
             //if (key == ConsoleKey.I)
             //    UpdatePlantPoison();
 
-            //if (key == ConsoleKey.J)
-            //    UpdatePlantGeneralInfo();
+            if (key == ConsoleKey.J)
+                UpdatePlantName(plantId, "information", "GeneralInfo");
 
             else
             {
@@ -161,17 +161,27 @@ namespace PlantApp
 
         }
 
-        private void UpdatePlantName(int plantId)
+        //private void UpdateLatinName(int plantId)
+        //{
+        //    List<Plant> singlePlant = _dataAccess.GetSinglePlant(plantId);
+        //    WriteLine($"Nuvarande latinska namn på växten är {singlePlant[0].LatinName}.");
+        //    Write("Vad vill du ändra till: ");
+        //    string newName = Console.ReadLine();
+        //    string columnName = "LatinName";
+        //    _dataAccess.UpdateName(newName, columnName, singlePlant[0].PlantId);
+        //    List<Plant> updatedSinglePlant = _dataAccess.GetSinglePlant(plantId);
+        //    PrintSinglePlantAndMenu(updatedSinglePlant);
+        //}
+
+        private void UpdatePlantName(int plantId, string name, string columnName)
         {
             List<Plant> singlePlant = _dataAccess.GetSinglePlant(plantId);
-            WriteLine($"Nuvarande namn på växten är {singlePlant[0].Name}.");
+            WriteLine($"Nuvarande {name} på växten är: {singlePlant[0].GetProperty(columnName)}.");
             Write("Vad vill du ändra till: ");
             string newName = Console.ReadLine();
-            _dataAccess.UpdateName(newName, singlePlant[0].PlantId);
+            _dataAccess.UpdateName(newName, columnName, singlePlant[0].PlantId);
             List<Plant> updatedSinglePlant = _dataAccess.GetSinglePlant(plantId);
-
-            PrintSinglePlantAndMenu(updatedSinglePlant);
-            
+            PrintSinglePlantAndMenu(updatedSinglePlant); 
         }
 
         private void ShowComment(List<Plant> singePlant)

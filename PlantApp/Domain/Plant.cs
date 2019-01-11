@@ -19,5 +19,15 @@ namespace PlantApp.Domain
         public int PoisonId { get; set; }
         public string GeneralInfo { get; set; }
 
+        internal string GetProperty(string columnName)
+        {
+            if (columnName == "LatinName")
+                return LatinName;
+            if (columnName == "Name")
+                return Name;
+            if (columnName == "GeneralInfo")
+                return GeneralInfo;
+            throw new Exception();
+        }
     }
 }
