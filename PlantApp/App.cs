@@ -61,7 +61,17 @@ namespace PlantApp
                 if (testUserName == false)
                 {
                     Write("Ange ett lösenord: ");
-                    passWord = Console.ReadLine();
+                    passWord = "";
+                    while (true)
+                    {
+
+                        var key = System.Console.ReadKey(true);
+                        if (key.Key == ConsoleKey.Enter)
+                            break;                        
+                        passWord += key.KeyChar;
+                        Console.Write("*");
+                    }
+                    //passWord = Console.ReadLine();
                     WriteLine("");
                     Write("Ange en e-post: ");
                     email = Console.ReadLine(); // lägg till validering av e-post.
@@ -190,53 +200,8 @@ namespace PlantApp
 
             Write("Välj växt du vill se: ");
             List<Plant> singelPlant = _dataAccess.GetSinglePlant();
-
-            Header("Info on plant");
-            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
-
-            foreach (Plant bp in singelPlant)
-            {
-                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
-            }
-            Console.WriteLine("");
-            var firstElement = singelPlant[0].Name;
-            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
-            WriteLine("a) Google efter plantan");
-            WriteLine("b) Lägg till en kommentar");
-            WriteLine("c) Uppdatera information om växt");
-            WriteLine("d) Visa kommentarer");
-            WriteLine("e) Gå till huvudmenyn");
-            while (true)
-            {
-                ConsoleKey input = Console.ReadKey(true).Key;
-
-                if (input == ConsoleKey.A)
-                {
-                    GoogleThePlantPlease(singelPlant);
-                    break;
-                }
-                if (input == ConsoleKey.B)
-                {
-                    AddACommentToPlant(singelPlant);
-                    break;
-                }
-                if (input == ConsoleKey.C)
-                {
-                    UpDatePlantInfo(singelPlant[0].PlantId);
-                    break;
-                }
-                if (input == ConsoleKey.E)
-                {
-                    MainMenu();
-                }
-                if (input == ConsoleKey.D)
-                {
-                    ShowComment(singelPlant);
-                    break;
-                }
-            }
-            Console.ReadLine();
-            MainMenu();
+            PrintSinglePlantAndMenu(singelPlant);
+            
         }
 
 
@@ -339,11 +304,11 @@ namespace PlantApp
         public void PrintSinglePlantAndMenu(List<Plant> singlePlant)
         {
             Header("Info on plant");
-            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+            PrintGreenText("Plantans ID".PadRight(30) + "Plantans Namn".PadRight(30) + "Latinska namnet".PadRight(30) + "Vattnas varje x:e dag".PadRight(30) + "Info".PadRight(30));
 
             foreach (Plant bp in singlePlant)
             {
-                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays.ToString().PadRight(30) + bp.GeneralInfo.PadRight(30));
             }
             Console.WriteLine("");
 
