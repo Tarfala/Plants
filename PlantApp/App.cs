@@ -119,7 +119,15 @@ namespace PlantApp
                 Write("Användarnamn: ");
                 userName = Console.ReadLine();
                 Write("Lösenord: ");
-                passWord = Console.ReadLine();
+                while (true)
+                {
+
+                    var key = System.Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter)
+                        break;
+                    passWord += key.KeyChar;
+                    Console.Write("*");
+                }
                 loggedOnUser.UserName = userName;
                 loggedOnUser.PassWord = passWord;
                 bool userValid = _dataAccess.CheckIfUserIsValid(loggedOnUser);
