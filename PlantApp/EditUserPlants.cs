@@ -8,7 +8,6 @@ namespace PlantApp
 {
     partial class App
     {
-        // Här fixar vi med användarplantor.
 
        private void ShowAllUserPlants()
         {
@@ -19,10 +18,10 @@ namespace PlantApp
             foreach (var plant in AllUserPlants)
             {
                 WriteLine(plant.Name);
-                WriteLine("User: " + plant.UserName);
-                WriteLine("Bought Date: " + plant.Bought);
-                WriteLine("Warter Frequence: " + plant.WaterFrequence);
-                WriteLine($"Info from: {plant.UserName} \n" +
+                WriteLine("Användare: " + plant.UserName);
+                WriteLine("Inköpsdag: " + plant.Bought);
+                WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
+                WriteLine($"Info från: {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
             }
@@ -32,8 +31,6 @@ namespace PlantApp
 
        private void ShowPlantsOnUser()
         {
-            // Visar alla plantor registrerade på användare. 
-
             Header("Alla Dina Plantor");
 
             List<UserPlant> AllUserPlants = _dataAccess.ShowAllPlantsOnUser(loggedOnUser.UserId);
@@ -43,7 +40,7 @@ namespace PlantApp
                 WriteLine(plant.Name);
                 WriteLine("Användare: " + plant.UserName);
                 WriteLine("Inköpsdag: " + plant.Bought);
-                WriteLine("Vattnas var " + plant.WaterFrequence " dag");
+                WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
                 WriteLine($"Info från: {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
