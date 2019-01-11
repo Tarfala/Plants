@@ -42,8 +42,6 @@ namespace PlantApp
                 }
             }
 
-
-
             ShowPlantsMenu();
         }
 
@@ -55,14 +53,14 @@ namespace PlantApp
                 WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(5));
             }
             Write("Plantan som ska väljas: ");
-            string command = Console.ReadLine();
-            List<Plant> singePlant = _dataAccess.GetSinglePlant(command);
+            // string command = Console.ReadLine();
+            List<Plant> singePlant = _dataAccess.GetSinglePlant();
             Header("Info on plant");
-            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+            PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Plantans latinska namn".PadRight(30) + "Vattnas varje n:te dag" + "     " + "Info".PadRight(30));
 
             foreach (Plant bp in singePlant)
             {
-                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "                         " + bp.GeneralInfo.PadRight(30));
             }
             Console.WriteLine("");
 
@@ -174,7 +172,7 @@ namespace PlantApp
 
             foreach (Plant bp in updatedSinglePlant)
             {
-                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "                       " + bp.GeneralInfo.PadRight(30));
             }
             Console.WriteLine("");
 
@@ -185,7 +183,8 @@ namespace PlantApp
             WriteLine("a) Google efter plantan");
             WriteLine("b) Lägg till en kommentar");
             WriteLine("c) Uppdatera information om växt");
-            WriteLine("d) Gå till huvudmenyn");
+            WriteLine("d) Visa kommentarer om växten");
+            WriteLine("e) Gå till huvudmenyn");
             while (true)
             {
                 ConsoleKey input = Console.ReadKey(true).Key;
@@ -206,6 +205,11 @@ namespace PlantApp
                     break;
                 }
                 if (input == ConsoleKey.D)
+                {
+                    ShowComment(updatedSinglePlant);
+                    break;
+                }
+                if (input == ConsoleKey.E)
                 {
                     MainMenu();
                 }
@@ -239,7 +243,8 @@ namespace PlantApp
             {
                 Console.WriteLine(item.CommentFromUser.PadRight(30) + item.UserComment);
             }
-            Console.ReadLine();
+            Console.WriteLine("Tryck på enter för att komma till huvudmenyn");
+            Console.ReadKey();
         }
 
         private void GoogleThePlantPlease(List<Plant> singePlant)
@@ -268,8 +273,9 @@ namespace PlantApp
             onlyOne.GeneralInfo = singePlant[0].GeneralInfo;
 
             _dataAccess.AddComment(onlyOne, comment, loggedOnUser);
-
-            Console.ReadLine();
+            Console.WriteLine("Tack för ditt bidrag, tryck på enter för att komma till huvudmenyn");
+            Console.ReadKey();
+            MainMenu();
         }
 
         private void WorkWithPlant(string command)
