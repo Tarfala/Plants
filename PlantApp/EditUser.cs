@@ -33,7 +33,7 @@ namespace PlantApp
                 Console.Clear();
                 WriteLine("Uppdaterat!");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
 
             if (key2 == ConsoleKey.B)
@@ -44,7 +44,7 @@ namespace PlantApp
                 Console.Clear();
                 WriteLine("Uppdaterat!");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
 
             if (key2 == ConsoleKey.C)
@@ -53,7 +53,7 @@ namespace PlantApp
             }
 
             Console.ReadKey();
-            SeeUserPlantMenu();
+            SeeUserPlantsMenu();
             
         } 
     }

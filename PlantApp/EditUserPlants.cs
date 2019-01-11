@@ -10,11 +10,11 @@ namespace PlantApp
     {
         // Här fixar vi med användarplantor.
 
-        private void ShowAllUserPlants()
+       private void ShowAllUserPlants()
         {
             Header("Alla användarplantor");
 
-            List<UserPlant> AllUserPlants = _dataAccess.ShowAllUserPlantsList();
+           List<UserPlant> AllUserPlants = _dataAccess.ShowAllUserPlantsList();
 
             foreach (var plant in AllUserPlants)
             {
@@ -27,10 +27,10 @@ namespace PlantApp
                 Console.WriteLine();
             }
             Console.ReadKey();
-            SeeUserPlantMenu();
+            SeeUserPlantsMenu();
         }
 
-        private void ShowPlantsOnUser()
+       private void ShowPlantsOnUser()
         {
             // Visar alla plantor registrerade på användare. 
 
@@ -40,14 +40,10 @@ namespace PlantApp
 
             foreach (var plant in AllUserPlants)
             {
-                TimeSpan t = CalculateWaterDay(plant.LastWatered, plant.WaterFrequence);
-                string countDown = DisplayDaysTilWater(t);
-
                 WriteLine(plant.Name);
                 WriteLine("User: " + plant.UserName);
                 WriteLine("Bought Date: " + plant.Bought);
-                WriteLine("Water Frequence: " + plant.WaterFrequence);
-                WriteLine(countDown);
+                WriteLine("Warter Frequence: " + plant.WaterFrequence);
                 WriteLine($"Info from: {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
@@ -81,16 +77,6 @@ namespace PlantApp
                 MainMenu();
             }
 
-
-
-
-
-
-
-
-
-            Console.ReadKey();
-            SeeUserPlantMenu();
         }
 
 
@@ -173,7 +159,7 @@ namespace PlantApp
                 WriteLine("Här kan man uppdatera väderstreck sen");
                 WriteLine("Uppdaterat!");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
 
 
@@ -188,7 +174,7 @@ namespace PlantApp
                 Console.Clear();
                 WriteLine("Uppdaterat!");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
             if (key2 == ConsoleKey.C)
             {
@@ -200,7 +186,7 @@ namespace PlantApp
                 Console.Clear();
                 WriteLine("Uppdaterat!");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
 
             if (key2 == ConsoleKey.D)
@@ -215,7 +201,7 @@ namespace PlantApp
             }
             if (key2 == ConsoleKey.D)
             {
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
             else
             {
@@ -255,7 +241,7 @@ namespace PlantApp
             _dataAccess.UpdateUserPlant(PlantToWater);
 
             Console.ReadKey();
-            SeeUserPlantMenu();
+            SeeUserPlantsMenu();
 
 
         }
@@ -270,7 +256,7 @@ namespace PlantApp
             _dataAccess.UpdateUserPlant(newUserPlant);
 
             Console.ReadKey();
-            SeeUserPlantMenu();
+            SeeUserPlantsMenu();
 
         }
 
@@ -307,14 +293,14 @@ namespace PlantApp
 
                 WriteLine("Plantan är borttagen!");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
 
             else
             {
                 WriteLine("Ingen planta har tagits bort");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
         }
     }
