@@ -10,11 +10,11 @@ namespace PlantApp
     {
         // Här fixar vi med användarplantor.
 
-        private void ShowAllUserPlants()
+       private void ShowAllUserPlants()
         {
             Header("Alla användarplantor");
 
-            List<UserPlant> AllUserPlants = _dataAccess.ShowAllUserPlantsList();
+           List<UserPlant> AllUserPlants = _dataAccess.ShowAllUserPlantsList();
 
             foreach (var plant in AllUserPlants)
             {
@@ -27,10 +27,10 @@ namespace PlantApp
                 Console.WriteLine();
             }
             Console.ReadKey();
-            SeeUserPlantMenu();
+            SeeUserPlantsMenu();
         }
 
-        private void ShowPlantsOnUser()
+       private void ShowPlantsOnUser()
         {
             // Visar alla plantor registrerade på användare. 
 
@@ -40,14 +40,10 @@ namespace PlantApp
 
             foreach (var plant in AllUserPlants)
             {
-                TimeSpan t = CalculateWaterDay(plant.LastWatered, plant.WaterFrequence);
-                string countDown = DisplayDaysTilWater(t);
-
                 WriteLine(plant.Name);
                 WriteLine("User: " + plant.UserName);
                 WriteLine("Bought Date: " + plant.Bought);
-                WriteLine("Water Frequence: " + plant.WaterFrequence);
-                WriteLine(countDown);
+                WriteLine("Warter Frequence: " + plant.WaterFrequence);
                 WriteLine($"Info from: {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
@@ -65,7 +61,8 @@ namespace PlantApp
                 UpdateUserPlant(AllUserPlants);
 
             if (key == ConsoleKey.B)
-                ShowAllUserPlants();
+                WaterPlantQuestion(AllUserPlants);
+
 
             if (key == ConsoleKey.C)
                 ShowUserInformation();
@@ -80,16 +77,6 @@ namespace PlantApp
                 MainMenu();
             }
 
-
-
-
-
-
-
-
-
-            Console.ReadKey();
-            SeeUserPlantMenu();
         }
 
 
@@ -152,76 +139,70 @@ namespace PlantApp
 
             WriteLine("Vilken Planta vill du uppdatera?");
             int uppdPlant = int.Parse(Console.ReadLine());
-            UserPlant PlantToUppdate = _dataAccess.FindPlantOnId(uppdPlant);
+            UserPlant PlantToUppdate = SortOutUserPlant(list, uppdPlant);
 
-            Header("Uppdaterar" + PlantToUppdate.Name);
+            Header("Uppdaterar " + PlantToUppdate.Name);
 
             UserPlant newUserPlant = PlantToUppdate;
             WriteLine("Vad vill du uppdatera?");
-            WriteLine("a) Plancering");
+            WriteLine("a) Placering");
             WriteLine("b) Dagar mellan vattning");
             WriteLine("c) Uppdatera informationen");
             WriteLine("d) Vattna");
             WriteLine("e) Ta bort Planta");
             WriteLine("e) Tillbaka");
 
-            ConsoleKey key = Console.ReadKey(true).Key;
+            ConsoleKey key2 = Console.ReadKey(true).Key;
 
-            if (key == ConsoleKey.A)
+            if (key2 == ConsoleKey.A)
+            {
                 WriteLine("Här kan man uppdatera väderstreck sen");
-            Console.ReadKey();
-            Console.Clear();
-            WriteLine("Uppdaterat!");
-            Console.ReadKey();
-            SeeUserPlantMenu();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
+                SeeUserPlantsMenu();
+            }
 
 
-
-            if (key == ConsoleKey.B)
+            if (key2 == ConsoleKey.B)
+            {
                 Console.WriteLine();
                 WriteLine("Hur många dagar vill du ha mellan vattning?");
 
-            newUserPlant.WaterFrequence = int.Parse(Console.ReadLine());
-
-            _dataAccess.UpdateUserPlant(newUserPlant);
-            Console.Clear();
-            WriteLine("Uppdaterat!");
-            Console.ReadKey();
-            SeeUserPlantMenu();
-
-            if (key == ConsoleKey.C)
-                Console.WriteLine();
-                WriteLine("Ange ny information om plantan.");
-            newUserPlant.UserInfo = Console.ReadLine();
+                newUserPlant.WaterFrequence = int.Parse(Console.ReadLine());
 
                 _dataAccess.UpdateUserPlant(newUserPlant);
-            Console.Clear();
-            WriteLine("Uppdaterat!");
-            Console.ReadKey();
-            SeeUserPlantMenu();
-
-
-            if (key == ConsoleKey.D)
+                Console.Clear();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
+                SeeUserPlantsMenu();
+            }
+            if (key2 == ConsoleKey.C)
+            {
                 Console.WriteLine();
-            WriteLine("Vattnar blomman...");
-            Console.ReadKey();
-            newUserPlant.LastWatered = DateTime.Now;
+                WriteLine("Ange ny information om plantan.");
+                newUserPlant.UserInfo = Console.ReadLine();
 
-            _dataAccess.UpdateUserPlant(newUserPlant);
+                _dataAccess.UpdateUserPlant(newUserPlant);
+                Console.Clear();
+                WriteLine("Uppdaterat!");
+                Console.ReadKey();
+                SeeUserPlantsMenu();
+            }
 
-            Console.ReadKey();
-            SeeUserPlantMenu();
+            if (key2 == ConsoleKey.D)
+            {
+                WaterPlant(newUserPlant);
+            }
 
 
-
-            if (key == ConsoleKey.E)
-
+            if (key2 == ConsoleKey.E)
+            {
                 DeleteUserPlant(PlantToUppdate.UserPlantId);
-
-            if (key == ConsoleKey.D)
-
-                SeeUserPlantMenu();
-
+            }
+            if (key2 == ConsoleKey.D)
+            {
+                SeeUserPlantsMenu();
+            }
             else
             {
                 WriteLine("Nu blev det fel!");
@@ -232,6 +213,69 @@ namespace PlantApp
             // Lication, Waterfrequence, Ta bort, kommentar/info.
 
 
+        }
+
+        private void WaterPlantQuestion(List<UserPlant> list)
+        {
+            Header("Vattna");
+            Console.WriteLine();
+            foreach (var plant in list)
+            {
+                WriteLine("Id: " + plant.UserPlantId);
+                WriteLine("Namn: " + plant.Name);
+            }
+
+            Console.WriteLine();
+            WriteLine("Vilken Planta vill du Vattna?");
+            int uppdPlant = int.Parse(Console.ReadLine());
+            UserPlant PlantToWater = SortOutUserPlant(list, uppdPlant);
+
+            Console.Clear();
+            Console.WriteLine();
+
+
+            WriteLine("Vattnar blomman...");
+            Console.ReadKey();
+            PlantToWater.LastWatered = DateTime.Now;
+
+            _dataAccess.UpdateUserPlant(PlantToWater);
+
+            Console.ReadKey();
+            SeeUserPlantsMenu();
+
+
+        }
+        private void WaterPlant(UserPlant newUserPlant)
+        {
+            Console.Clear();
+            Console.WriteLine();
+            WriteLine("Vattnar blomman...");
+            Console.ReadKey();
+            newUserPlant.LastWatered = DateTime.Now;
+
+            _dataAccess.UpdateUserPlant(newUserPlant);
+
+            Console.ReadKey();
+            SeeUserPlantsMenu();
+
+        }
+
+
+        private UserPlant SortOutUserPlant(List<UserPlant> list, int UserPlantId)
+        {
+            UserPlant newPlant = new UserPlant();
+            foreach (var plant in list)
+            {
+                if (plant.UserPlantId == UserPlantId)
+                {
+                    newPlant = plant;
+                }
+                else
+                {
+                    WriteLine("Nu blev det fel");
+                }
+            }
+            return newPlant;
         }
 
         private void DeleteUserPlant(int UserPlantId)
@@ -249,14 +293,14 @@ namespace PlantApp
 
                 WriteLine("Plantan är borttagen!");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
 
             else
             {
                 WriteLine("Ingen planta har tagits bort");
                 Console.ReadKey();
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
             }
         }
     }

@@ -60,13 +60,14 @@ namespace PlantApp
             Header("Info om plantan");
             PrintGreenText("Plantans ID".PadRight(30) + "Plantans namn".PadRight(30) + "Latinska namn".PadRight(30) + "Vattnas varje x:e dag" + "     " + "Info".PadRight(30));
 
+
             foreach (Plant bp in singePlant)
             {
                 Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
             }
             Console.WriteLine("");
 
-            
+
             var firstElement = singePlant.First().Name;
             //Console.WriteLine(firstElement);
             PrintGreenText("Vad vill du göra med " + firstElement + "en?");

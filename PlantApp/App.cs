@@ -158,7 +158,7 @@ namespace PlantApp
                 ShowPlantsMenu();
 
             if (key == ConsoleKey.B)
-                SeeUserPlantMenu();
+                SeeUserPlantsMenu();
 
             if (key == ConsoleKey.C)
                 SearchPlantOnWord();
@@ -239,8 +239,8 @@ namespace PlantApp
             MainMenu();
         }
 
-        private void SeeUserPlantMenu()
 
+        public void SeeUserPlantsMenu()
         {
             Header("Användarväxter");
             WriteLine("a) Visa mina växter\n" +
@@ -258,14 +258,16 @@ namespace PlantApp
                ShowAllUserPlants();
 
             if (key == ConsoleKey.C)
+            {
                 ShowUserInformation();
+            }
 
             if (key == ConsoleKey.D)
                 MainMenu();
 
             else
             {
-                WriteLine("Nu blev det fel!");
+               
                 Console.ReadKey();
                 MainMenu();
             }
