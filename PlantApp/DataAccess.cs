@@ -287,7 +287,7 @@ namespace PlantApp
             return plantList;
         }
 
-internal void AddPlant(Plant added)
+        internal void AddPlant(Plant added)
         {
             var sql = @"insert into Plant (Name, LatinName, WaterFrekuenseInDays, LocationId, PlantTypeId, ScentId, SoilId, NutritionId, OriginId, PoisonId, GeneralInfo) Values (@Name, @LatinName, @WaterFrekuenseInDays, 1, 1, 1, 1, 1, 1, 1, @GeneralInfo)";
             using (SqlConnection connection = new SqlConnection(conString))
@@ -302,7 +302,7 @@ internal void AddPlant(Plant added)
             }
         }
         
-internal bool TestOfUserName(User loggedOnUser)
+        internal bool TestOfUserName(User loggedOnUser)
         {
             bool testUser = true;
             var sql = @"SELECT COUNT(*) FROM [User] WHERE UserName = @userName";

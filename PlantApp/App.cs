@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using PlantApp.Domain;
 
@@ -23,9 +24,9 @@ namespace PlantApp
 
         private void Login()
         {
-            Header("Plantbook");
+            Header("PlantBook");
             WriteLine("Inloggning");
-            WriteLine("a) Logga in i Plant");
+            WriteLine("a) Logga in i PlantBook");
             WriteLine("b) Skapa nytt användarkonto.");
             ConsoleKey command = Console.ReadKey(true).Key;
 
@@ -202,7 +203,9 @@ namespace PlantApp
             PrintGreenText("Vad vill du göra med " + firstElement + "en?");
             WriteLine("a) Google efter plantan");
             WriteLine("b) Lägg till en kommentar");
-            WriteLine("c) Gå till huvudmenyn");
+            WriteLine("c) Uppdatera information om växt");
+            WriteLine("d) Visa kommentarer");
+            WriteLine("e) Gå till huvudmenyn");
             while (true)
             {
                 ConsoleKey input = Console.ReadKey(true).Key;
@@ -219,11 +222,17 @@ namespace PlantApp
                 }
                 if (input == ConsoleKey.C)
                 {
+                    UpDatePlantInfo(singelPlant[0].PlantId);
+                    break;
+                }
+                if (input == ConsoleKey.E)
+                {
                     MainMenu();
                 }
-                else
+                if (input == ConsoleKey.D)
                 {
-                    Console.WriteLine("Sorry, wrong input...");
+                    ShowComment(singelPlant);
+                    break;
                 }
             }
             Console.ReadLine();
@@ -249,14 +258,16 @@ namespace PlantApp
                ShowAllUserPlants();
 
             if (key == ConsoleKey.C)
+            {
                 ShowUserInformation();
+            }
 
             if (key == ConsoleKey.D)
                 MainMenu();
 
             else
             {
-                WriteLine("Nu blev det fel!");
+               
                 Console.ReadKey();
                 MainMenu();
             }
@@ -323,6 +334,57 @@ namespace PlantApp
             Console.WriteLine(text.ToUpper());
             Console.WriteLine();
             Console.ResetColor();
+        }
+
+        public void PrintSinglePlantAndMenu(List<Plant> singlePlant)
+        {
+            Header("Info on plant");
+            PrintGreenText("Plant ID".PadRight(30) + "Plant Name".PadRight(30) + "Latin Name".PadRight(30) + "Water every 'x days" + "     " + "Info".PadRight(30));
+
+            foreach (Plant bp in singlePlant)
+            {
+                Console.WriteLine(bp.PlantId.ToString().PadRight(30) + bp.Name.PadRight(30) + bp.LatinName.PadRight(30) + bp.WaterFrekuenseInDays + "              " + bp.GeneralInfo.PadRight(30));
+            }
+            Console.WriteLine("");
+
+
+            var firstElement = singlePlant.First().Name;
+
+            PrintGreenText("Vad vill du göra med " + firstElement + "en?");
+            WriteLine("a) Google efter plantan");
+            WriteLine("b) Lägg till en kommentar");
+            WriteLine("c) Uppdatera information om växt");
+            WriteLine("d) Visa kommentarer");
+            WriteLine("e) Gå till huvudmenyn");
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+
+                if (input == ConsoleKey.A)
+                {
+                    GoogleThePlantPlease(singlePlant);
+                    break;
+                }
+                if (input == ConsoleKey.B)
+                {
+                    AddACommentToPlant(singlePlant);
+                    break;
+                }
+                if (input == ConsoleKey.C)
+                {
+                    UpDatePlantInfo(singlePlant[0].PlantId);
+                    break;
+                }
+                if (input == ConsoleKey.E)
+                {
+                    MainMenu();
+                }
+                if (input == ConsoleKey.D)
+                {
+                    ShowComment(singlePlant);
+                    break;
+                }
+            }
         }
 
     }
