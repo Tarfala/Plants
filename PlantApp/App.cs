@@ -115,6 +115,7 @@ namespace PlantApp
         {
             while (true)
             {
+                passWord = "";
                 WriteLine("Logga in i applikationen");
                 Write("Användarnamn: ");
                 userName = Console.ReadLine();
