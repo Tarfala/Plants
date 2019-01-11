@@ -157,7 +157,7 @@ namespace PlantApp
             WriteLine("c) Uppdatera informationen");
             WriteLine("d) Vattna");
             WriteLine("e) Ta bort Planta");
-            WriteLine("e) Tillbaka");
+            WriteLine("f) Tillbaka");
 
             ConsoleKey key2 = Console.ReadKey(true).Key;
 
@@ -206,7 +206,7 @@ namespace PlantApp
             {
                 DeleteUserPlant(PlantToUppdate.UserPlantId);
             }
-            if (key2 == ConsoleKey.D)
+            if (key2 == ConsoleKey.F)
             {
                 SeeUserPlantsMenu();
             }
