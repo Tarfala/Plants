@@ -43,7 +43,7 @@ namespace PlantApp
                 WriteLine(plant.Name);
                 WriteLine("Användare: " + plant.UserName);
                 WriteLine("Inköpsdag: " + plant.Bought);
-                WriteLine("Vattnas var " + plant.WaterFrequence + " dag");
+                WriteLine("Vattnas var " + plant.WaterFrequence " dag");
                 WriteLine($"Info från: {plant.UserName} \n" +
                     $"{plant.UserInfo}");
                 Console.WriteLine();
